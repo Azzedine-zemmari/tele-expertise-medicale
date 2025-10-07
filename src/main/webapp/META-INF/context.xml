@@ -1,0 +1,7 @@
+<Context>
+    <Resource name="jdbc/mydb" auth="Container" type="javax.sql.DataSource"
+              username="postgres" password="Azzedine2004"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/Medical"
+              maxTotal="20" maxIdle="10" maxWaitMillis="-1"/>
+</Context>
