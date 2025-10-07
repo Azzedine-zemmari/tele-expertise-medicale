@@ -4,23 +4,25 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Infirmier")
+@Table(name = "Patient")
 public class Patient {
     @Id
     @Column(columnDefinition = "uuid")
     private UUID id;
 
-    private String service;
+    private String mutuelle;
 
-    @Enumerated(EnumType.STRING)
-    private Shift shift;
+    private String address;
 
-    private int experience;
+    private String num_securite_social;
+
+    private String CIN;
 
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
     private Utilisateur utilisateur;
+
 
     public UUID getId() {
         return id;
@@ -30,28 +32,36 @@ public class Patient {
         this.id = id;
     }
 
-    public String getService() {
-        return service;
+    public String getMutuelle() {
+        return mutuelle;
     }
 
-    public void setService(String service) {
-        this.service = service;
+    public void setMutuelle(String mutuelle) {
+        this.mutuelle = mutuelle;
     }
 
-    public Shift getShift() {
-        return shift;
+    public String getAddress() {
+        return address;
     }
 
-    public void setShift(Shift shift) {
-        this.shift = shift;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getExperience() {
-        return experience;
+    public String getNum_securite_social() {
+        return num_securite_social;
     }
 
-    public void setExperience(int experience) {
-        this.experience = experience;
+    public void setNum_securite_social(String num_securite_social) {
+        this.num_securite_social = num_securite_social;
+    }
+
+    public String getCIN() {
+        return CIN;
+    }
+
+    public void setCIN(String CIN) {
+        this.CIN = CIN;
     }
 
     public Utilisateur getUtilisateur() {
