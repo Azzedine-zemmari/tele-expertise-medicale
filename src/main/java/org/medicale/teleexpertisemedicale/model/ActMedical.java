@@ -17,8 +17,9 @@ public class ActMedical {
 
     private double count;
 
-    @OneToMany(mappedBy = "ActeMidical")
-    private List<Consultation> consultations;
+    @ManyToOne
+    @JoinColumn(name = "consultation_id")
+    private Consultation consultation;
 
     public UUID getId() {
         return id;
@@ -44,11 +45,11 @@ public class ActMedical {
         this.count = count;
     }
 
-    public List<Consultation> getConsultations() {
-        return consultations;
+    public Consultation getConsultation() {
+        return consultation;
     }
 
-    public void setConsultations(List<Consultation> consultations) {
-        this.consultations = consultations;
+    public void setConsultation(Consultation consultation) {
+        this.consultation = consultation;
     }
 }

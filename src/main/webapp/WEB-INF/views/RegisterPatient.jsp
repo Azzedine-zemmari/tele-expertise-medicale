@@ -173,7 +173,7 @@
         <hr/>
     </div>
 
-    <form>
+    <form method="post" action="${pageContext.request.contextPath}/Register-Patient">
         <div class="form-row">
             <div class="form-group">
                 <label for="firstName">First Name</label>
@@ -198,6 +198,11 @@
         <div class="form-group">
             <label for="cin">CIN</label>
             <input type="text" id="cin" name="CIN" required>
+        </div>
+
+        <div class="form-group">
+            <label for="adress">Adress</label>
+            <input type="text" id="adress" name="adress" required>
         </div>
 
         <button type="submit" class="submit-btn">Submit</button>

@@ -2,6 +2,7 @@ package org.medicale.teleexpertisemedicale.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -20,6 +21,9 @@ public class Consultation {
     @ManyToOne
     @JoinColumn(name = "dossier_medical_id")
     private DossierMedical dossierMedical;
+
+    @OneToMany(mappedBy = "consultation")
+    private List<ActMedical> actMedicals;
 
     private LocalDate date;
 
@@ -103,5 +107,13 @@ public class Consultation {
 
     public void setStatus_consultation(StatusConsultation status_consultation) {
         this.status_consultation = status_consultation;
+    }
+
+    public List<ActMedical> getActMedicals() {
+        return actMedicals;
+    }
+
+    public void setActMedicals(List<ActMedical> actMedicals) {
+        this.actMedicals = actMedicals;
     }
 }
