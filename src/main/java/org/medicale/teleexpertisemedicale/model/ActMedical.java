@@ -8,6 +8,7 @@ import java.util.UUID;
 @Table(name = "ActeMidical")
 public class ActMedical {
     @Id
+    @GeneratedValue
     @Column(columnDefinition = "uuid")
     private UUID id;
 

@@ -9,6 +9,7 @@ import java.util.UUID;
 public class DemandeExpertise {
 
     @Id
+    @GeneratedValue
     @Column(columnDefinition = "uuid")
     private UUID id;
 

@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Creneu {
 
     @Id
-    @GeneratedValue
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "uuid")
     private UUID id;
 

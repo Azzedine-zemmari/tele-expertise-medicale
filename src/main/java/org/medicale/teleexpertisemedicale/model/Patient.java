@@ -7,6 +7,7 @@ import java.util.UUID;
 @Table(name = "Patient")
 public class Patient {
     @Id
+    @GeneratedValue
     @Column(columnDefinition = "uuid")
     private UUID id;
 

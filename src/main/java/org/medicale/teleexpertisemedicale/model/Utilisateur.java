@@ -8,6 +8,7 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Utilisateur {
     @Id
+    @GeneratedValue
     @Column(columnDefinition = "uuid")
     private UUID id;
 
