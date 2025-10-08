@@ -10,6 +10,10 @@ public class Patient {
     @Column(columnDefinition = "uuid")
     private UUID id;
 
+    private String nom;
+
+    private String prenom;
+
     private String mutuelle;
 
     private String address;
@@ -17,12 +21,6 @@ public class Patient {
     private String num_securite_social;
 
     private String CIN;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private Utilisateur utilisateur;
-
 
     public UUID getId() {
         return id;
@@ -64,11 +62,4 @@ public class Patient {
         this.CIN = CIN;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
 }

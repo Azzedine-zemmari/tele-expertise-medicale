@@ -95,6 +95,7 @@
                     <password>Azzedine2004</password>
                     <schemas>public</schemas>
                     <locations>filesystem:src/main/resources/db/migration</locations>
+                    <cleanDisabled>false</cleanDisabled>
                 </configuration>
             </plugin>
         </plugins>
