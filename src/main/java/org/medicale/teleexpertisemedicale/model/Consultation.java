@@ -35,6 +35,7 @@ public class Consultation {
 
     private Integer count;
 
+    @Enumerated(EnumType.STRING)
     private StatusConsultation status_consultation;
 
     public UUID getId() {

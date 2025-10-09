@@ -174,7 +174,7 @@
     <hr/>
   </div>
 
-  <form method="post" action="${pageContext.request.contextPath}/">
+  <form method="post" action="${pageContext.request.contextPath}/CreeConsultation">
     <div class="form-row">
       <div class="form-group">
         <label for="firstName">Generalist</label>
