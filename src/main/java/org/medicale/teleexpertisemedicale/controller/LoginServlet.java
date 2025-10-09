@@ -18,7 +18,7 @@ public class LoginServlet extends HttpServlet {
     private EntityManagerFactory emf;
     private static final StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     @Override
-    public void init() throws ServletException{
+    public void init(){
         emf = Persistence.createEntityManagerFactory("myPU");
     }
     @Override
