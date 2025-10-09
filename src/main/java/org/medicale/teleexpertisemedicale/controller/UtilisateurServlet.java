@@ -1,5 +1,6 @@
 package org.medicale.teleexpertisemedicale.controller;
 
+import org.jasypt.util.password.PasswordEncryptor;
 import org.medicale.teleexpertisemedicale.model.*;
 
 import javax.persistence.EntityManager;
@@ -12,12 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import static org.medicale.teleexpertisemedicale.model.Role.INFIRMIER;
 
 @WebServlet(name = "UserRegistre" , value = "/Register")
 public class UtilisateurServlet extends HttpServlet {
     private EntityManagerFactory emf;
+    private static final StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     @Override
     public void init() throws ServletException{
         emf = Persistence.createEntityManagerFactory("myPU");
@@ -36,6 +39,7 @@ public class UtilisateurServlet extends HttpServlet {
             String nom = req.getParameter("lastName");
             String email = req.getParameter("email");
             String password = req.getParameter("password");
+            String encryptedPasword = passwordEncryptor.encryptPassword(password);
             Role role = Role.valueOf(req.getParameter("role"));
 
             Utilisateur user = new Utilisateur();
@@ -43,7 +47,7 @@ public class UtilisateurServlet extends HttpServlet {
             user.setNom(nom);
             user.setPrenom(prenom);
             user.setEmail(email);
-            user.setPassword(password);
+            user.setPassword(encryptedPasword);
             user.setRole(role);
 
             em.getTransaction().begin();
