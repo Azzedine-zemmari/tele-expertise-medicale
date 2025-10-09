@@ -1,0 +1,1 @@
+ALTER TABLE DossierMedical DROP COLUMN past_surgeries ;

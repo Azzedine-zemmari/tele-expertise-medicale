@@ -173,7 +173,7 @@
         <hr/>
     </div>
 
-    <form method="post" action="${pageContext.request.contextPath}/">
+    <form method="post" action="${pageContext.request.contextPath}/Dossier-Medical">
         <div class="form-row">
             <div class="form-group">
                 <label for="firstName">Utilisateur</label>
