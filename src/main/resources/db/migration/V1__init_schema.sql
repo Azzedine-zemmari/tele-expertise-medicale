@@ -20,7 +20,8 @@ CREATE TABLE Infirmier (
     service VARCHAR(50),
     shift shift,
     experience INT,
-    FOREIGN KEY (id) REFERENCES Utilisateur(id)
+    user_id UUID UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES Utilisateur(id)
 );
 
 -- Generalist
@@ -28,7 +29,8 @@ CREATE TABLE Generalist (
     id UUID PRIMARY KEY,
     experience INT,
     tarifConsultation DECIMAL(6,2) DEFAULT 150.00,
-    FOREIGN KEY (id) REFERENCES Utilisateur(id)
+    user_id UUID UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES Utilisateur(id)
 );
 
 -- Specialiste
@@ -36,7 +38,8 @@ CREATE TABLE Specialiste(
     id UUID PRIMARY KEY,
     experience INT,
     tarif DECIMAL,
-    FOREIGN KEY (id) REFERENCES Utilisateur(id)
+    user_id UUID UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES Utilisateur(id)
 );
 
 -- StatusConsultation

@@ -25,12 +25,13 @@ public class Utilisateur {
     private String password;
 
     @Enumerated(EnumType.STRING)
+//    @Column(columnDefinition = "role")
     private Role role;
 
     public UUID getId(){
         return  this.id;
     }
-    public void setId(){
+    public void setId(UUID id){
         this.id = id;
     }
     public String getNom() {

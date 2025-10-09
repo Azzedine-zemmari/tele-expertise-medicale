@@ -182,7 +182,7 @@
         <hr/>
     </div>
 
-    <form method="post" action="${pageContext.request.contextPath}/Register-Patient">
+    <form method="post" action="${pageContext.request.contextPath}/Register">
         <div class="form-row">
             <div class="form-group">
                 <label for="firstName">First Name</label>
@@ -197,11 +197,6 @@
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
-        </div>
-
-        <div class="form-group">
-            <label for="securite_social">N securite social</label>
-            <input type="text" id="securite_social" name="securite_social" required>
         </div>
 
         <div class="form-group">
@@ -226,7 +221,10 @@
             </div>
             <div class="form-group">
                 <label for="shift">Shift</label>
-                <input type="text" id="shift" name="shift">
+                <select id="shift" name="shift" required>
+                    <option value="JOUR">Jour</option>
+                    <option value="NUIT">Nuit</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="experience_inf">Experience</label>
@@ -237,7 +235,7 @@
         <div id="GeneralisteForm" class="role-specific-form hidden">
             <div class="form-group">
                 <label for="experience_gen">Experience</label>
-                <input type="text" id="experience_gen" name="experience">
+                <input type="text" id="experience_gen" name="experience_gen">
             </div>
             <div class="form-group">
                 <label for="tarifConsultation">Tarif Consultation</label>
@@ -248,7 +246,7 @@
         <div id="SpecialisteForm" class="role-specific-form hidden">
             <div class="form-group">
                 <label for="experience_spec">Experience</label>
-                <input type="text" id="experience_spec" name="experience">
+                <input type="text" id="experience_spec" name="experience_spec">
             </div>
             <div class="form-group">
                 <label for="tarif">Tarif Consultation</label>

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Generalist")
+@Table(name = "generalist")
 public class Generalist {
     @Id
     @GeneratedValue
@@ -15,8 +15,7 @@ public class Generalist {
     private double tarifConsultation;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
 
     public UUID getId() {

@@ -1,0 +1,2 @@
+ALTER TABLE infirmier
+ALTER COLUMN shift TYPE VARCHAR(10);
