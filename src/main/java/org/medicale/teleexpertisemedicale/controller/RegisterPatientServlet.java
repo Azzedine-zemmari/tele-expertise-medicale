@@ -25,6 +25,10 @@ public class RegisterPatientServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(req.getSession().getAttribute("loggedUser") == null){
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
         req.getRequestDispatcher("/WEB-INF/views/RegisterPatient.jsp").forward(req,resp);
     }
 

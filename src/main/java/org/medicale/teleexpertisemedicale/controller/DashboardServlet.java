@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-@WebServlet(name = "dashboard" ,  value = "/dashboard")
+@WebServlet(name = "dashboard", value = "/dashboard")
 public class DashboardServlet extends HttpServlet {
     private EntityManagerFactory emf;
 
@@ -26,6 +26,10 @@ public class DashboardServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(req.getSession().getAttribute("loggedUser") == null){
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
         EntityManager em = emf.createEntityManager();
 
         List<Patient> patientList = em.createQuery(
@@ -43,17 +47,17 @@ public class DashboardServlet extends HttpServlet {
                 "SELECT  distinct dm.patient FROM Consultation c " +
                         "JOIN c.dossierMedical dm " +
                         "JOIN dm.patient " +
-                        "WHERE c.date = :date",Patient.class
+                        "WHERE c.date = :date", Patient.class
         ).setParameter("date", LocalDate.now()).getResultList();
-        req.setAttribute("patientAjourdhui",patientAjourdhui);
+        req.setAttribute("patientAjourdhui", patientAjourdhui);
         // fix
         List<Patient> patientStatus = em.createQuery(
-                        "SELECT dm.patient FROM Consultation c " +
-                                "JOIN c.dossierMedical dm " +
-                                "JOIN dm.patient " ,
-                        Patient.class
-                ).getResultList();
-        req.setAttribute("patientstatus",patientStatus);
+                "SELECT dm.patient FROM Consultation c " +
+                        "JOIN c.dossierMedical dm " +
+                        "JOIN dm.patient ",
+                Patient.class
+        ).getResultList();
+        req.setAttribute("patientstatus", patientStatus);
         req.getRequestDispatcher("/WEB-INF/views/Dashboard.jsp").forward(req, resp);
     }
 

@@ -189,7 +189,8 @@
         <hr/>
     </div>
 
-    <form method="post" action="${pageContext.request.contextPath}//login">
+    <form method="post" action="${pageContext.request.contextPath}/login">
+        <a href="${pageContext.request.contextPath}/Register">Register</a>
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>

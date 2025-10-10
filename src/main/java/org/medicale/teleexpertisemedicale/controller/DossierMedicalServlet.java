@@ -24,6 +24,10 @@ public class DossierMedicalServlet extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException , IOException {
+        if(req.getSession().getAttribute("loggedUser") == null){
+            response.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
         EntityManager em = emf.createEntityManager();
         List<Patient> patientList = em.createQuery("SELECT p From Patient p", Patient.class).getResultList();
         em.close();

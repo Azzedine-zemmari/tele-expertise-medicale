@@ -247,11 +247,196 @@
                 font-size: 28px;
             }
         }
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .navbar-title {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-link {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-link:hover {
+            background: #f8f9fa;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        @media (max-width: 968px) {
+            .navbar-menu {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                display: none;
+                gap: 5px;
+            }
+
+            .navbar-menu.active {
+                display: flex;
+            }
+
+            .navbar-link {
+                width: 100%;
+                padding: 12px 18px;
+            }
+
+            .logout-form {
+                width: 100%;
+            }
+
+            .logout-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="dashboard-container">
+<div class="dashboard-container"><!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="${pageContext.request.contextPath}/Dashboard" class="navbar-brand">
+                <div class="navbar-logo">🏥</div>
+                <span class="navbar-title">MediCare</span>
+            </a>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+
+            <ul class="navbar-menu" id="navbarMenu">
+                <li>
+                    <a href="${pageContext.request.contextPath}/CreeConsultation" class="navbar-link">
+                        📋 Créer Consultation
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/actmedical" class="navbar-link">
+                        💉 Acte Médical
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/Dossier-Medical" class="navbar-link">
+                        📁 Dossier Médical
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/Register-Patient" class="navbar-link">
+                        👤 Enregistrer Patient
+                    </a>
+                </li>
+                <li>
+                    <form method="post" action="${pageContext.request.contextPath}/logout" class="logout-form">
+                        <button type="submit" class="logout-btn">
+                            🚪 Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="dashboard-header">
         <h1>📋 Dashboard des Consultations</h1>
         <p>Vue d'ensemble des patients aujourd'hui</p>

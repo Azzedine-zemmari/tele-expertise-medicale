@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "loginServlet" , value = "/login")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private EntityManagerFactory emf;
     private static final StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
@@ -43,7 +43,8 @@ public class LoginServlet extends HttpServlet {
                     req.getSession().setAttribute("loggedUser",user);
                     // Forwared
                     resp.setContentType("text/plain");
-                    resp.getWriter().write("User logged in successfully!" + req.getSession());                }
+                    resp.sendRedirect(req.getContextPath() + "/dashboard");
+                }
             }
             else{
                 req.setAttribute("error","invalid email or password");

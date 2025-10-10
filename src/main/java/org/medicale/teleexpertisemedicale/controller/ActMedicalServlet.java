@@ -27,6 +27,10 @@ public class ActMedicalServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(req.getSession().getAttribute("loggedUser") == null){
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
         EntityManager em = emf.createEntityManager();
         List<Consultation> consultations = em.createQuery("SELECT c FROM Consultation c JOIN FETCH c.dossierMedical JOIN FETCH c.generalist").getResultList();
         req.setAttribute("consultations",consultations);

@@ -1,6 +1,5 @@
 package org.medicale.teleexpertisemedicale.controller;
 
-import org.medicale.teleexpertisemedicale.HelloServlet;
 import org.medicale.teleexpertisemedicale.model.*;
 
 import javax.persistence.EntityManager;
@@ -27,6 +26,10 @@ public class ConsultationServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("loggedUser") == null){
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         EntityManager em = emf.createEntityManager();
         List<Generalist> generalistList = em.createQuery("SELECT g from Generalist g JOIN FETCH g.utilisateur" ,Generalist.class).getResultList();
         List<DossierMedical> dossierMedicalList = em.createQuery("SELECT d from DossierMedical d JOIN FETCH d.patient").getResultList();
