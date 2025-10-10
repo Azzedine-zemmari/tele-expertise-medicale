@@ -1,6 +1,7 @@
 package org.medicale.teleexpertisemedicale.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public class SigneVital {
 
     private double poids ;
 
-    private Date date_mesure;
+    private LocalDate date_mesure;
 
     @OneToOne
     @JoinColumn(name = "consultation_id",unique = true)
@@ -66,11 +67,11 @@ public class SigneVital {
         this.poids = poids;
     }
 
-    public Date getDate_mesure() {
+    public LocalDate getDate_mesure() {
         return date_mesure;
     }
 
-    public void setDate_mesure(Date date_mesure) {
+    public void setDate_mesure(LocalDate date_mesure) {
         this.date_mesure = date_mesure;
     }
 

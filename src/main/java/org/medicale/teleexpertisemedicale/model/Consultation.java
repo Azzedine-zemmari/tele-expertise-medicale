@@ -25,6 +25,9 @@ public class Consultation {
     @OneToMany(mappedBy = "consultation")
     private List<ActMedical> actMedicals;
 
+    @OneToOne(mappedBy = "consultation")
+    private SigneVital signeVital;
+
     private LocalDate date;
 
     private String motif;

@@ -41,7 +41,7 @@ public class ConsultationServlet extends HttpServlet {
         EntityManager em = emf.createEntityManager();
 
         try {
-            // 1️⃣ Get parameters from form
+            // Get parameters from form
             String generalistIdStr = req.getParameter("generalist_id");
             String dossierMedicalIdStr = req.getParameter("dossier_medical_id");
             String dateStr = req.getParameter("date");
@@ -49,13 +49,22 @@ public class ConsultationServlet extends HttpServlet {
             String diagnostique = req.getParameter("diagnostique");
             String traitement = req.getParameter("traitement");
             String countStr = req.getParameter("count");
+            String temperateurStr = req.getParameter("temperature");
+            String poidStr = req.getParameter("poids");
+            String FrequenceCardiaqueStr = req.getParameter("FrequenceCardiaque");
+            String tensionStr = req.getParameter("tension");
 
             UUID generalistId = UUID.fromString(generalistIdStr);
             UUID dossierMedicalId = UUID.fromString(dossierMedicalIdStr);
             LocalDate date = LocalDate.parse(dateStr); // format yyyy-MM-dd
             Integer count = Integer.parseInt(countStr);
+            Integer temperatur = Integer.parseInt(temperateurStr);
+            Double poid = Double.parseDouble(poidStr);
+            Double frequenceCardiaqueDouble = Double.parseDouble(FrequenceCardiaqueStr);
+            Double tension = Double.parseDouble(tensionStr);
 
-            // 2️⃣ Find related entities
+
+            //  Find related entities
             Generalist generalist = em.find(Generalist.class, generalistId);
             DossierMedical dossierMedical = em.find(DossierMedical.class, dossierMedicalId);
 
@@ -64,7 +73,7 @@ public class ConsultationServlet extends HttpServlet {
                 return;
             }
 
-            // 3️⃣ Create Consultation entity
+            //  Create Consultation entity
             Consultation consultation = new Consultation();
             consultation.setGeneralist(generalist);
             consultation.setDossierMedical(dossierMedical);
@@ -74,10 +83,18 @@ public class ConsultationServlet extends HttpServlet {
             consultation.setTraitement(traitement);
             consultation.setCount(count);
             consultation.setStatus_consultation(StatusConsultation.EN_ATTENTE); // example status
-
-            // 4️⃣ Persist entity
+            // create signe viteau
+            SigneVital sn = new SigneVital();
+            sn.setConsultation(consultation);
+            sn.setPoids(poid);
+            sn.setTemperature(temperatur);
+            sn.setFrequenceCardiaque(frequenceCardiaqueDouble);
+            sn.setTension(tension);
+            sn.setDate_mesure(LocalDate.now());
+            //  Persist entity
             em.getTransaction().begin();
             em.persist(consultation);
+            em.persist(sn);
             em.getTransaction().commit();
 
             resp.getWriter().write("Consultation created successfully!");
