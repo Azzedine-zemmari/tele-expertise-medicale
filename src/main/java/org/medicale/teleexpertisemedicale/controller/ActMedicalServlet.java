@@ -2,6 +2,7 @@ package org.medicale.teleexpertisemedicale.controller;
 
 import org.medicale.teleexpertisemedicale.model.ActMedical;
 import org.medicale.teleexpertisemedicale.model.Consultation;
+import org.medicale.teleexpertisemedicale.model.Role;
 import org.medicale.teleexpertisemedicale.model.TypeAct;
 
 import javax.persistence.EntityManager;
@@ -27,8 +28,14 @@ public class ActMedicalServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getSession().getAttribute("loggedUser") == null){
+        Role role = (Role) req.getSession().getAttribute("roleUser");
+        Object userObject = req.getSession().getAttribute("loggedUser");
+        if(userObject== null){
             resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+        if(role != Role.INFIRMIER){
+            req.getRequestDispatcher("/WEB-INF/views/AccessDenied.jsp").forward(req,resp);
             return;
         }
         EntityManager em = emf.createEntityManager();

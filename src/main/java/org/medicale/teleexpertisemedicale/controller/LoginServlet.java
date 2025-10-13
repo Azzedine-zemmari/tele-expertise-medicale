@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
                 if(passwordEncryptor.checkPassword(password,storedPassord)){
                     // store user in session
                     req.getSession().setAttribute("loggedUser",user);
+                    req.getSession().setAttribute("roleUser" , user.getRole());
                     // Forwared
                     resp.setContentType("text/plain");
                     resp.sendRedirect(req.getContextPath() + "/dashboard");

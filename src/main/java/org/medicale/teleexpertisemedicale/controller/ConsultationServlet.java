@@ -1,6 +1,7 @@
 package org.medicale.teleexpertisemedicale.controller;
 
 import org.medicale.teleexpertisemedicale.model.*;
+import org.medicale.teleexpertisemedicale.repository.ConsultationRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,11 +18,12 @@ import java.util.UUID;
 
 @WebServlet(name = "consultationServlet" , value = "/CreeConsultation")
 public class ConsultationServlet extends HttpServlet {
-    private EntityManagerFactory emf;
 
+    private ConsultationRepository consultationRepository;
     @Override
     public void init() throws ServletException{
-        emf = Persistence.createEntityManagerFactory("myPU");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        consultationRepository = new ConsultationRepository(emf);
     }
 
     @Override
@@ -30,10 +32,8 @@ public class ConsultationServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        EntityManager em = emf.createEntityManager();
-        List<Generalist> generalistList = em.createQuery("SELECT g from Generalist g JOIN FETCH g.utilisateur" ,Generalist.class).getResultList();
-        List<DossierMedical> dossierMedicalList = em.createQuery("SELECT d from DossierMedical d JOIN FETCH d.patient").getResultList();
-        em.close();
+        List<Generalist> generalistList = consultationRepository.findAllGeneralist();
+        List<DossierMedical> dossierMedicalList = consultationRepository.findAllDossierMedical();
         request.setAttribute("generalists" , generalistList);
         request.setAttribute("dossierMedical" , dossierMedicalList);
         request.getRequestDispatcher("/WEB-INF/views/CreeConsultation.jsp").forward(request,response);
@@ -41,7 +41,6 @@ public class ConsultationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
 
         try {
             // Get parameters from form
@@ -68,8 +67,8 @@ public class ConsultationServlet extends HttpServlet {
 
 
             //  Find related entities
-            Generalist generalist = em.find(Generalist.class, generalistId);
-            DossierMedical dossierMedical = em.find(DossierMedical.class, dossierMedicalId);
+            Generalist generalist = consultationRepository.findGeneralistById(generalistId);
+            DossierMedical dossierMedical = consultationRepository.findDossierMedicalById(dossierMedicalId);
 
             if (generalist == null || dossierMedical == null) {
                 resp.getWriter().write("Generalist or DossierMedical not found!");
@@ -95,21 +94,13 @@ public class ConsultationServlet extends HttpServlet {
             sn.setTension(tension);
             sn.setDate_mesure(LocalDate.now());
             //  Persist entity
-            em.getTransaction().begin();
-            em.persist(consultation);
-            em.persist(sn);
-            em.getTransaction().commit();
+            consultationRepository.saveConsultatinAndSigneVitaux(consultation,sn);
 
             resp.getWriter().write("Consultation created successfully!");
 
         } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
             e.printStackTrace();
             resp.getWriter().write("Erreur inserting consultation: " + e.getMessage());
-        } finally {
-            em.close();
         }
     }
 

@@ -2,6 +2,7 @@ package org.medicale.teleexpertisemedicale.controller;
 
 import org.medicale.teleexpertisemedicale.model.DossierMedical;
 import org.medicale.teleexpertisemedicale.model.Patient;
+import org.medicale.teleexpertisemedicale.repository.DossierMedicalRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,10 +18,11 @@ import java.util.UUID;
 
 @WebServlet(name = "DossierMedical" , value = "/Dossier-Medical")
 public class DossierMedicalServlet extends HttpServlet {
-    private EntityManagerFactory emf;
+    private DossierMedicalRepository dossierMedicalRepository;
     @Override
     public void init() throws ServletException {
-        emf = Persistence.createEntityManagerFactory("myPU");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        dossierMedicalRepository = new DossierMedicalRepository(emf);
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException , IOException {
@@ -28,16 +30,13 @@ public class DossierMedicalServlet extends HttpServlet {
             response.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-        EntityManager em = emf.createEntityManager();
-        List<Patient> patientList = em.createQuery("SELECT p From Patient p", Patient.class).getResultList();
-        em.close();
+        List<Patient> patientList = dossierMedicalRepository.getAllPatients();
         req.setAttribute("patients" , patientList);
         req.getRequestDispatcher("/WEB-INF/views/DossierMedicalCreate.jsp").forward(req,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
         try{
             String patient_id = req.getParameter("patient_id");
             String bloodType = req.getParameter("bloodType");
@@ -46,7 +45,7 @@ public class DossierMedicalServlet extends HttpServlet {
             String pastSergery = req.getParameter("Psurgeries");
 
             UUID patient_uuid = UUID.fromString(patient_id);
-            Patient patient =  em.find(Patient.class,patient_uuid);
+            Patient patient = dossierMedicalRepository.findPatientById(patient_uuid);
 
             DossierMedical dossierMedical = new DossierMedical();
             dossierMedical.setPatient(patient);
@@ -55,17 +54,11 @@ public class DossierMedicalServlet extends HttpServlet {
             dossierMedical.setMedications(Medications);
             dossierMedical.setPastSurgeries(pastSergery);
 
-            em.getTransaction().begin();
-            em.persist(dossierMedical);
-            em.getTransaction().commit();
+            dossierMedicalRepository.save(dossierMedical);
             resp.setContentType("text/plain");
             resp.getWriter().write("dossier Medical insrted successfully");
         }catch (Exception e){
-            em.getTransaction().rollback();
             resp.getWriter().write("Erreur insertint dossier medical " + e.getMessage());
-        }
-        finally {
-            em.close();
         }
     }
 }
