@@ -17,11 +17,12 @@ import java.util.UUID;
 
 @WebServlet(name = "RegisterPatient",value = "/Register-Patient")
 public class RegisterPatientServlet extends HttpServlet {
-//    PatientRepository patientRepository = new PatientRepository();
-    private EntityManagerFactory emf;
+    private PatientRepository patientRepository;
+
     @Override
     public void init() throws ServletException{
-        emf = Persistence.createEntityManagerFactory("myPU");
+        EntityManagerFactory emf =(EntityManagerFactory) getServletContext().getAttribute("emf");
+        patientRepository = new PatientRepository(emf);
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +35,6 @@ public class RegisterPatientServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
         try{
         String prenom = req.getParameter("firstName");
         String nom = req.getParameter("lastName");
@@ -52,18 +52,12 @@ public class RegisterPatientServlet extends HttpServlet {
         patient.setNum_securite_social(ss);
         patient.setCIN(cin);
 
-        em.getTransaction().begin();
-        em.persist(patient);
-        em.getTransaction().commit();
+        patientRepository.save(patient);
         // Response
             resp.setContentType("text/plain");
             resp.getWriter().write("Patient inserted successfully" + patient.getId());
         }catch (Exception e){
-            em.getTransaction().rollback();
             resp.getWriter().write("Erreur inserting patient : " + e.getMessage());
-        }
-        finally {
-            em.close();
         }
     }
 }
