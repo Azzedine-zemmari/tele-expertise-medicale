@@ -14,16 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.medicale.teleexpertisemedicale.repository.UtilisateurRepository;
 
 import static org.medicale.teleexpertisemedicale.model.Role.INFIRMIER;
 
 @WebServlet(name = "UserRegistre" , value = "/Register")
 public class UtilisateurServlet extends HttpServlet {
-    private EntityManagerFactory emf;
+    private UtilisateurRepository utilisateurRepository;
     private static final StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     @Override
     public void init() throws ServletException{
-        emf = Persistence.createEntityManagerFactory("myPU");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        utilisateurRepository = new UtilisateurRepository(emf);
     }
 
     @Override
@@ -33,7 +35,6 @@ public class UtilisateurServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
         try{
             String prenom = req.getParameter("firstName");
             String nom = req.getParameter("lastName");
@@ -50,8 +51,7 @@ public class UtilisateurServlet extends HttpServlet {
             user.setPassword(encryptedPasword);
             user.setRole(role);
 
-            em.getTransaction().begin();
-            em.persist(user);
+            utilisateurRepository.saveUser(user);
             switch (role){
                 case INFIRMIER:
                     String service = req.getParameter("service");
@@ -62,7 +62,7 @@ public class UtilisateurServlet extends HttpServlet {
                     infirmier.setService(service);
                     infirmier.setShift(shift);
                     infirmier.setUtilisateur(user);
-                    em.persist(infirmier);
+                    utilisateurRepository.saveInfirmier(infirmier);
                     break;
                 case GENERALISTE:
                     int exeperience = Integer.parseInt(req.getParameter("experience_gen"));
@@ -71,7 +71,7 @@ public class UtilisateurServlet extends HttpServlet {
                     generalist.setExperience(exeperience);
                     generalist.setTarif(tarif);
                     generalist.setUtilisateur(user);
-                    em.persist(generalist);
+                    utilisateurRepository.saveGeneralist(generalist);
                     break;
                 case SPECIALISTE :
                     int exeperienceSpec = Integer.parseInt(req.getParameter("experience_spec"));
@@ -80,21 +80,16 @@ public class UtilisateurServlet extends HttpServlet {
                     specialiste.setExperience(exeperienceSpec);
                     specialiste.setTarif(tarifSpec);
                     specialiste.setUtilisateur(user);
-                    em.persist(specialiste);
+                    utilisateurRepository.saveSpecialiste(specialiste);
                     break;
                 default:
                     System.out.println("choose something else ");
             }
-            em.getTransaction().commit();
             resp.setContentType("text/plain");
             resp.getWriter().write("User and role inserted successfully!");
         }catch (Exception e){
-            em.getTransaction().rollback();
             e.printStackTrace();
             resp.getWriter().write("Erreur inserting patient : " + e.getMessage());
-        }
-        finally {
-            em.close();
         }
     }
 }
