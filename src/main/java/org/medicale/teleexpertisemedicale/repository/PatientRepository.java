@@ -1,6 +1,7 @@
 package org.medicale.teleexpertisemedicale.repository;
 
 import org.medicale.teleexpertisemedicale.model.Patient;
+import org.medicale.teleexpertisemedicale.model.StatusConsultation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -63,5 +64,47 @@ public class PatientRepository {
             em.close();
         }
     }
+    public List<Patient> findPatientWithStatusConsultationAttente(){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            return em.createQuery(
+                            "SELECT distinct dm.patient FROM Consultation c " +
+                                    "JOIN c.dossierMedical dm " +
+                                    "JOIN dm.patient " +
+                                    "WHERE c.status_consultation = :status",
+                            Patient.class
+                    )
+                    .setParameter("status", StatusConsultation.EN_ATTENTE)
+                    .getResultList();
+        }finally {
+            em.close();
+        }
+    }
+    public List<Patient> findPatientWithConsultationToday(){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            return em.createQuery(
+                    "SELECT  distinct dm.patient FROM Consultation c " +
+                            "JOIN c.dossierMedical dm " +
+                            "JOIN dm.patient " +
+                            "WHERE c.date = :date", Patient.class
+            ).setParameter("date", LocalDate.now()).getResultList();
+        }finally {
+            em.close();
+        }
+    }
 
+    public List<Patient> findPatientStatus(){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            return  em.createQuery(
+                    "SELECT dm.patient FROM Consultation c " +
+                            "JOIN c.dossierMedical dm " +
+                            "JOIN dm.patient ",
+                    Patient.class
+            ).getResultList();
+        }finally {
+            em.close();
+        }
+    }
 }

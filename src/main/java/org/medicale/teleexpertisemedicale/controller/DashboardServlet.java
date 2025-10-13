@@ -2,6 +2,7 @@ package org.medicale.teleexpertisemedicale.controller;
 
 import org.medicale.teleexpertisemedicale.model.Patient;
 import org.medicale.teleexpertisemedicale.model.StatusConsultation;
+import org.medicale.teleexpertisemedicale.repository.PatientRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,11 +18,12 @@ import java.util.List;
 
 @WebServlet(name = "dashboard", value = "/dashboard")
 public class DashboardServlet extends HttpServlet {
-    private EntityManagerFactory emf;
+    private PatientRepository patientRepository;
 
     @Override
     public void init() throws ServletException {
-        emf = Persistence.createEntityManagerFactory("myPU");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        patientRepository = new PatientRepository(emf);
     }
 
     @Override
@@ -30,33 +32,14 @@ public class DashboardServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-        EntityManager em = emf.createEntityManager();
 
-        List<Patient> patientList = em.createQuery(
-                        "SELECT distinct dm.patient FROM Consultation c " +
-                                "JOIN c.dossierMedical dm " +
-                                "JOIN dm.patient " +
-                                "WHERE c.status_consultation = :status",
-                        Patient.class
-                )
-                .setParameter("status", StatusConsultation.EN_ATTENTE)
-                .getResultList();
+        List<Patient> patientList = patientRepository.findPatientWithStatusConsultationAttente();
 
         req.setAttribute("patients", patientList);
-        List<Patient> patientAjourdhui = em.createQuery(
-                "SELECT  distinct dm.patient FROM Consultation c " +
-                        "JOIN c.dossierMedical dm " +
-                        "JOIN dm.patient " +
-                        "WHERE c.date = :date", Patient.class
-        ).setParameter("date", LocalDate.now()).getResultList();
+        List<Patient> patientAjourdhui = patientRepository.findPatientWithConsultationToday();
         req.setAttribute("patientAjourdhui", patientAjourdhui);
         // fix
-        List<Patient> patientStatus = em.createQuery(
-                "SELECT dm.patient FROM Consultation c " +
-                        "JOIN c.dossierMedical dm " +
-                        "JOIN dm.patient ",
-                Patient.class
-        ).getResultList();
+        List<Patient> patientStatus = patientRepository.findPatientStatus();
         req.setAttribute("patientstatus", patientStatus);
         req.getRequestDispatcher("/WEB-INF/views/Dashboard.jsp").forward(req, resp);
     }
