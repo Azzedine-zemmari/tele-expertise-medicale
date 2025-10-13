@@ -4,6 +4,8 @@ import org.medicale.teleexpertisemedicale.model.ActMedical;
 import org.medicale.teleexpertisemedicale.model.Consultation;
 import org.medicale.teleexpertisemedicale.model.Role;
 import org.medicale.teleexpertisemedicale.model.TypeAct;
+import org.medicale.teleexpertisemedicale.repository.ActMedicalRepository;
+import org.medicale.teleexpertisemedicale.repository.ConsultationRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,11 +21,14 @@ import java.util.UUID;
 
 @WebServlet(name = "actMedical",value = "/actmedical")
 public class ActMedicalServlet extends HttpServlet {
-    private EntityManagerFactory emf;
+    private ConsultationRepository consultationRepository ;
+    private ActMedicalRepository actMedicalRepository;
 
     @Override
     public void init() throws ServletException {
-        emf = Persistence.createEntityManagerFactory("myPU");
+        EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
+        consultationRepository = new ConsultationRepository(emf);
+        actMedicalRepository = new ActMedicalRepository(emf);
     }
 
     @Override
@@ -38,8 +43,7 @@ public class ActMedicalServlet extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/views/AccessDenied.jsp").forward(req,resp);
             return;
         }
-        EntityManager em = emf.createEntityManager();
-        List<Consultation> consultations = em.createQuery("SELECT c FROM Consultation c JOIN FETCH c.dossierMedical JOIN FETCH c.generalist").getResultList();
+        List<Consultation> consultations = consultationRepository.getAllConsultationWithMoreDetails();
         req.setAttribute("consultations",consultations);
         req.setAttribute("actTypes", TypeAct.values());
         req.getRequestDispatcher("/WEB-INF/views/CreeActMedical.jsp").forward(req,resp);
@@ -47,15 +51,13 @@ public class ActMedicalServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
         try{
         String consultationStr = req.getParameter("consultation");
         String count = req.getParameter("count");
         UUID consultationId = UUID.fromString(consultationStr);
 
-        Consultation consultation = em.find(Consultation.class,consultationId);
+        Consultation consultation = consultationRepository.findById(consultationId);
         Double countdouble = Double.parseDouble(count);
-        em.getTransaction().begin();
 
         String[] actsMedical = req.getParameterValues("actmedical");
         for(String a : actsMedical){
@@ -63,18 +65,12 @@ public class ActMedicalServlet extends HttpServlet {
             actMedical.setTypeAct(TypeAct.valueOf(a));
             actMedical.setConsultation(consultation);
             actMedical.setCount(countdouble);
-            em.persist(actMedical);
+            actMedicalRepository.save(actMedical);
         }
-        em.getTransaction().commit();
         resp.getWriter().write("Consultation & multiple ActMedical saved!");
         }catch (Exception e){
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
             e.printStackTrace();
             resp.getWriter().write("Erreur inserting consultation: " + e.getMessage());
-        }finally {
-            em.close();
         }
     }
 }

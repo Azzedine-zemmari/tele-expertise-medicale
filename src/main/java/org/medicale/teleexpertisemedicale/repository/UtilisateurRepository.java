@@ -90,6 +90,16 @@ public class UtilisateurRepository {
             em.close();
         }
     }
+    public Utilisateur findByEmail(String email){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            return em.createQuery("SELECT u FROM Utilisateur u WHERE u.email = :email",Utilisateur.class)
+                    .setParameter("email",email)
+                    .getSingleResult();
+        }finally {
+            em.close();
+        }
+    }
 
     @Transactional
     public void delete(Generalist g){

@@ -2,6 +2,7 @@ package org.medicale.teleexpertisemedicale.controller;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.medicale.teleexpertisemedicale.model.Utilisateur;
+import org.medicale.teleexpertisemedicale.repository.UtilisateurRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,10 +17,12 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private EntityManagerFactory emf;
+    private UtilisateurRepository utilisateurRepository;
     private static final StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     @Override
     public void init(){
-        emf = Persistence.createEntityManagerFactory("myPU");
+        EntityManagerFactory emf = (EntityManagerFactory)  getServletContext().getAttribute("emf");
+        utilisateurRepository = new UtilisateurRepository(emf);
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,12 +33,9 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        EntityManager em = emf.createEntityManager();
 
         try{
-            Utilisateur user = em.createQuery("SELECT u FROM Utilisateur u WHERE u.email = :email",Utilisateur.class)
-                    .setParameter("email",email)
-                    .getSingleResult();
+            Utilisateur user = utilisateurRepository.findByEmail(email);
             String storedPassord = user.getPassword();
             if(user != null){
                 if(passwordEncryptor.checkPassword(password,storedPassord)){
@@ -54,8 +54,6 @@ public class LoginServlet extends HttpServlet {
         }catch (Exception e){
             req.setAttribute("error","invalid email or password");
             req.getRequestDispatcher("/WEB-INF/views/Login.jsp").forward(req, resp);
-        }finally {
-            em.close();
         }
 
     }

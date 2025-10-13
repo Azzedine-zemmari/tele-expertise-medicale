@@ -71,5 +71,21 @@ public class ConsultationRepository {
         }
     }
 
-    
+    public List<Consultation> getAllConsultationWithMoreDetails(){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            return em.createQuery("SELECT c FROM Consultation c JOIN FETCH c.dossierMedical JOIN FETCH c.generalist").getResultList();
+        }finally {
+            em.close();
+        }
+    }
+
+    public Consultation findById(UUID id){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            return em.find(Consultation.class,id);
+        }finally {
+            em.close();
+        }
+    }
 }
