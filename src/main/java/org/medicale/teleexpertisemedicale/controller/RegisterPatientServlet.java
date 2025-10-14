@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @WebServlet(name = "RegisterPatient",value = "/Register-Patient")
@@ -51,6 +52,7 @@ public class RegisterPatientServlet extends HttpServlet {
         patient.setAddress(adress);
         patient.setNum_securite_social(ss);
         patient.setCIN(cin);
+        patient.setDate_arrive(LocalDate.now());
 
         patientRepository.save(patient);
         // Response

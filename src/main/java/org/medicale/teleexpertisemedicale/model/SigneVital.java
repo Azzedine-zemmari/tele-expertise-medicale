@@ -23,9 +23,12 @@ public class SigneVital {
 
     private LocalDate date_mesure;
 
-    @OneToOne
-    @JoinColumn(name = "consultation_id",unique = true)
-    private Consultation consultation;
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
+
+    public Patient getPatient() { return patient; }
+    public void setPatient(Patient patient) { this.patient = patient; }
 
     public UUID getId() {
         return id;
@@ -73,13 +76,5 @@ public class SigneVital {
 
     public void setDate_mesure(LocalDate date_mesure) {
         this.date_mesure = date_mesure;
-    }
-
-    public Consultation getConsultation() {
-        return consultation;
-    }
-
-    public void setConsultation(Consultation consultation) {
-        this.consultation = consultation;
     }
 }

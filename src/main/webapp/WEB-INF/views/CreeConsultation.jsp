@@ -242,57 +242,6 @@
 
   <div class="form-content">
     <form method="post" action="${pageContext.request.contextPath}/CreeConsultation">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="firstName">Generalist</label>
-          <select name="generalist_id">
-            <option selected disabled> choisi generalist</option>
-            <c:forEach var="g" items="${generalists}">
-              <option value="${g.id}">${g.utilisateur.nom} ${g.utilisateur.prenom}</option>
-            </c:forEach>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="bloodType">Dossier Medical</label>
-          <select name="dossier_medical_id">
-            <c:forEach var="d" items="${dossierMedical}">
-              <option value="${d.id}">${d.patient.nom} ${d.patient.prenom} ${d.bloodType}</option>
-            </c:forEach>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="date">date</label>
-        <input type="date" id="date" name="date" required>
-      </div>
-
-      <div class="form-group">
-        <label for="motif">motif</label>
-        <input type="text" id="motif" name="motif" required>
-      </div>
-
-      <div class="form-group">
-        <label for="diagnostique">diagnostique</label>
-        <input type="text" id="diagnostique" name="diagnostique" required>
-      </div>
-      <div class="form-group">
-        <label for="traitement">traitement</label>
-        <input type="text" id="traitement" name="traitement" required>
-      </div>
-      <div class="form-group">
-        <label for="count">count</label>
-        <input type="text" id="count" name="count" required>
-      </div>
-
-      <div class="checkbox-group">
-        <input type="checkbox" id="toggleSigne" />
-        <label for="toggleSigne">Ajouter signes vitaux</label>
-      </div>
-
-      <div id="signeVitauxForm">
-        <h3>Signes Vitaux</h3>
-
         <div class="form-group">
           <label for="temperature">Température (°C)</label>
           <input type="text" id="temperature" name="temperature">
@@ -311,26 +260,11 @@
           <label for="tension">Tension</label>
           <input type="text" id="tension" name="tension">
         </div>
-      </div>
 
       <button type="submit" class="submit-btn">Submit</button>
     </form>
   </div>
 </div>
 
-<script>
-  document.getElementById("toggleSigne").addEventListener("change", function() {
-    let formSection = document.getElementById("signeVitauxForm");
-    if (this.checked) {
-      formSection.classList.add("show");
-      // Smooth scroll within the form content
-      setTimeout(() => {
-        formSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 300);
-    } else {
-      formSection.classList.remove("show");
-    }
-  });
-</script>
 </body>
 </html>
