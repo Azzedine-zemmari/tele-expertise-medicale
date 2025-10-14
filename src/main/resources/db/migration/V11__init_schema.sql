@@ -1,0 +1,2 @@
+ALTER TABLE Specialiste
+    ADD COLUMN specialiste VARCHAR(100) DEFAULT 'UNKNOWN';

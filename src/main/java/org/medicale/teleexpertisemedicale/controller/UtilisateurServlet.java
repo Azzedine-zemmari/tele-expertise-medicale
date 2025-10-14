@@ -76,10 +76,12 @@ public class UtilisateurServlet extends HttpServlet {
                 case SPECIALISTE :
                     int exeperienceSpec = Integer.parseInt(req.getParameter("experience_spec"));
                     double tarifSpec = Double.parseDouble(req.getParameter("tarif"));
+                    String specialite = req.getParameter("specialite");
                     Specialiste specialiste = new Specialiste();
                     specialiste.setExperience(exeperienceSpec);
                     specialiste.setTarif(tarifSpec);
                     specialiste.setUtilisateur(user);
+                    specialiste.setSpecialiste(specialite);
                     utilisateurRepository.saveSpecialiste(specialiste);
                     break;
                 default:

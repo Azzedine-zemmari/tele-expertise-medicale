@@ -254,6 +254,10 @@
                 <label for="tarif">Tarif Consultation</label>
                 <input type="text" id="tarif" name="tarif">
             </div>
+            <div class="form-group">
+                <label for="tarif">Specialite</label>
+                <input type="text" id="tarif" name="specialite">
+            </div>
         </div>
 
         <button type="submit" class="submit-btn">Submit</button>

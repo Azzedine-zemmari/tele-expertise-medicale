@@ -18,6 +18,8 @@ public class Specialiste {
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
 
+    private String specialiste;
+
     public UUID getId() {
         return id;
     }
@@ -48,5 +50,13 @@ public class Specialiste {
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+    }
+
+    public String getSpecialiste() {
+        return specialiste;
+    }
+
+    public void setSpecialiste(String specialiste) {
+        this.specialiste = specialiste;
     }
 }

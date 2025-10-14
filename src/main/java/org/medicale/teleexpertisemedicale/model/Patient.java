@@ -21,6 +21,7 @@ public class Patient {
 
     private String num_securite_social;
 
+    @Column(unique = true)
     private String CIN;
 
     public UUID getId() {
