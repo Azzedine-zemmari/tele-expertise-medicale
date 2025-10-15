@@ -16,7 +16,7 @@ public class ActMedicalRepository {
         try{
             entityManager.getTransaction().begin();
             entityManager.persist(actMedical);
-            entityManager.getTransaction().rollback();
+            entityManager.getTransaction().commit();
         }catch (Exception e){
             e.getMessage();
             entityManager.getTransaction().rollback();

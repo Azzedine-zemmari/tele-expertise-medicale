@@ -107,4 +107,14 @@ public class PatientRepository {
             em.close();
         }
     }
+    public List<Patient> findPatientDateArriveToday(){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            return em.createQuery("SELECT DISTINCT p from Patient  p JOIN FETCH p.dossierMedical dm join fetch p.signesVitaux sn  Where p.date_arrive = :date", Patient.class)
+                    .setParameter("date", LocalDate.now())
+                    .getResultList();
+        }finally {
+            em.close();
+        }
+    }
 }

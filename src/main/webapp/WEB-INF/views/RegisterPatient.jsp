@@ -207,6 +207,7 @@
 
         <button type="submit" class="submit-btn">Submit</button>
     </form>
+    <a href="${pageContext.request.contextPath}/SigneVital">Cree signe vital</a>
 </div>
 </body>
 </html>

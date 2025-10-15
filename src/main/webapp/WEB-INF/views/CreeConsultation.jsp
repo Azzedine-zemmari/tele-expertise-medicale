@@ -242,25 +242,51 @@
 
   <div class="form-content">
     <form method="post" action="${pageContext.request.contextPath}/CreeConsultation">
-        <div class="form-group">
-          <label for="temperature">Température (°C)</label>
-          <input type="text" id="temperature" name="temperature">
+<%--        <div class="form-group">--%>
+<%--          <label for="firstName">Generalist</label>--%>
+<%--          <select name="generalist_id">--%>
+<%--            <option selected disabled> choisi generalist</option>--%>
+<%--            <c:forEach var="g" items="${generalists}">--%>
+<%--              <option value="${g.id}">${g.utilisateur.nom} ${g.utilisateur.prenom}</option>--%>
+<%--            </c:forEach>--%>
+<%--          </select>--%>
+<%--        </div>--%>
+        <div class="form-group" style="display: none">
+          <label for="bloodType">Dossier Medical</label>
+            <input name="dossier_medical_id"  value="${dossier_medical.id}" />
         </div>
 
-        <div class="form-group">
-          <label for="poids">Poids (kg)</label>
-          <input type="text" id="poids" name="poids">
-        </div>
 
-        <div class="form-group">
-          <label for="FrequenceCardiaque">Fréquence Cardiaque</label>
-          <input type="text" id="FrequenceCardiaque" name="FrequenceCardiaque">
-        </div>
-        <div class="form-group">
-          <label for="tension">Tension</label>
-          <input type="text" id="tension" name="tension">
-        </div>
+      <div class="form-group">
+        <label for="date">date</label>
+        <input type="date" id="date" name="date" required>
+      </div>
 
+      <div class="form-group">
+        <label for="motif">motif</label>
+        <input type="text" id="motif" name="motif" required>
+      </div>
+
+      <div class="form-group">
+        <label for="diagnostique">diagnostique</label>
+        <input type="text" id="diagnostique" name="diagnostique" required>
+      </div>
+      <div class="form-group">
+        <label for="traitement">traitement</label>
+        <input type="text" id="traitement" name="traitement" required>
+      </div>
+      <div class="form-group">
+        <label for="count">count</label>
+        <input type="text" id="count" name="count" required>
+      </div>
+    <div class="form-group">
+        <label for="typeact">TypeAct</label>
+        <select name="typeact" multiple>
+        <c:forEach var="act" items="${TypeAct}">
+            <option value="${act}">${act}</option>
+        </c:forEach>
+        </select>
+    </div>
       <button type="submit" class="submit-btn">Submit</button>
     </form>
   </div>

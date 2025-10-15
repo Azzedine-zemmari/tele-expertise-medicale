@@ -28,8 +28,9 @@ public class Patient {
     @OneToMany(mappedBy = "patient")
     private List<SigneVital> signesVitaux;
 
-    public List<SigneVital> getSignesVitaux() { return signesVitaux; }
-    public void setSignesVitaux(List<SigneVital> signesVitaux) { this.signesVitaux = signesVitaux; }
+    @OneToOne(mappedBy = "patient")
+    private DossierMedical dossierMedical;
+
     @Column(unique = true)
     private String CIN;
 
@@ -95,5 +96,21 @@ public class Patient {
 
     public void setDate_arrive(LocalDate date_arrive) {
         this.date_arrive = date_arrive;
+    }
+
+    public List<SigneVital> getSignesVitaux() {
+        return signesVitaux;
+    }
+
+    public void setSignesVitaux(List<SigneVital> signesVitaux) {
+        this.signesVitaux = signesVitaux;
+    }
+
+    public DossierMedical getDossierMedical() {
+        return dossierMedical;
+    }
+
+    public void setDossierMedical(DossierMedical dossierMedical) {
+        this.dossierMedical = dossierMedical;
     }
 }

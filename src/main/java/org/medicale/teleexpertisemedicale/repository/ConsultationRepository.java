@@ -70,6 +70,21 @@ public class ConsultationRepository {
             em.close();
         }
     }
+    public void saveConsultation(Consultation consultation){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(consultation);
+            em.getTransaction().commit();
+        }catch (Exception e){
+            if(em.getTransaction().isActive()){
+                em.getTransaction().rollback();
+                e.getMessage();
+            }
+        }finally {
+            em.close();
+        }
+    }
 
     public List<Consultation> getAllConsultationWithMoreDetails(){
         EntityManager em = entityManagerFactory.createEntityManager();

@@ -118,4 +118,6 @@ public class Consultation {
     public void setActMedicals(List<ActMedical> actMedicals) {
         this.actMedicals = actMedicals;
     }
+
+
 }
