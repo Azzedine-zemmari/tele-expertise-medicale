@@ -58,6 +58,7 @@ public class CreeConsultationServlet extends HttpServlet {
             String traitement = req.getParameter("traitement");
             String count = req.getParameter("count");
             String[] typeActParam = req.getParameterValues("typeact");
+            String action = req.getParameter("action");
 
             if (dossier_medical_id == null || date == null || count == null || typeActParam == null) {
                 resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing required fields");
@@ -84,8 +85,13 @@ public class CreeConsultationServlet extends HttpServlet {
             consultation.setDiagnostique(diagnostique);
             consultation.setTraitement(traitement);
             consultation.setCount(integerCount);
-            consultation.setStatus_consultation(StatusConsultation.TERMINEE);
+            if("termine".equals(action)){
+                consultation.setStatus_consultation(StatusConsultation.TERMINEE);
+            }else if("avis".equals(action)){
+                consultation.setStatus_consultation(StatusConsultation.EN_ATTENTE_AVIS_SPECIALISTE);
+            }
 
+            System.out.println("ACTION = " + action);
             consultationRepository.saveConsultation(consultation);
 
             //  5. Loop for multiple TypeAct values

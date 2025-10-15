@@ -242,15 +242,6 @@
 
   <div class="form-content">
     <form method="post" action="${pageContext.request.contextPath}/CreeConsultation">
-<%--        <div class="form-group">--%>
-<%--          <label for="firstName">Generalist</label>--%>
-<%--          <select name="generalist_id">--%>
-<%--            <option selected disabled> choisi generalist</option>--%>
-<%--            <c:forEach var="g" items="${generalists}">--%>
-<%--              <option value="${g.id}">${g.utilisateur.nom} ${g.utilisateur.prenom}</option>--%>
-<%--            </c:forEach>--%>
-<%--          </select>--%>
-<%--        </div>--%>
         <div class="form-group" style="display: none">
           <label for="bloodType">Dossier Medical</label>
             <input name="dossier_medical_id"  value="${dossier_medical.id}" />
@@ -287,7 +278,8 @@
         </c:forEach>
         </select>
     </div>
-      <button type="submit" class="submit-btn">Submit</button>
+      <button type="submit" name="action" value="termine" class="submit-btn">Submit</button>
+      <button type="submit" name="action" value="avis" class="submit-btn">Avis exper</button>
     </form>
   </div>
 </div>
