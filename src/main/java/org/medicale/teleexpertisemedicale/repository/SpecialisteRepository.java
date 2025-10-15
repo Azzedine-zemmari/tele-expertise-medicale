@@ -5,6 +5,7 @@ import org.medicale.teleexpertisemedicale.model.Specialiste;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class SpecialisteRepository {
@@ -20,5 +21,15 @@ public class SpecialisteRepository {
                 .filter(specialiste -> Double.compare(specialiste.getTarif(),tarif) == 0)
                 .filter(specialiste -> specialiste.getSpecialiste().equalsIgnoreCase(specialite))
                 .collect(Collectors.toList());
+    }
+    public Specialiste findByID(UUID id){
+        EntityManager em = emf.createEntityManager();
+        try{
+            return em.createQuery("SELECT s FROM Specialiste s WHERE s.utilisateur.id = :userId",Specialiste.class)
+                    .setParameter("userId" , id)
+                    .getSingleResult();
+        }finally{
+            em.close();
+        }
     }
 }

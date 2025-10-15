@@ -1,6 +1,7 @@
 package org.medicale.teleexpertisemedicale.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
@@ -9,15 +10,15 @@ import java.util.UUID;
 public class Creneu {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(columnDefinition = "uuid")
     private UUID id;
 
     @Column(name = "heuredebut")
-    private LocalTime heureDebut;
+    private LocalDateTime heureDebut;
 
     @Column(name = "heurefin")
-    private LocalTime heureFin;
+    private LocalDateTime heureFin;
 
     private boolean disponibilite;
 
@@ -34,19 +35,19 @@ public class Creneu {
         this.id = id;
     }
 
-    public LocalTime getHeureDebut() {
+    public LocalDateTime getHeureDebut() {
         return heureDebut;
     }
 
-    public void setHeureDebut(LocalTime heureDebut) {
+    public void setHeureDebut(LocalDateTime heureDebut) {
         this.heureDebut = heureDebut;
     }
 
-    public LocalTime getHeureFin() {
+    public LocalDateTime getHeureFin() {
         return heureFin;
     }
 
-    public void setHeureFin(LocalTime heureFin) {
+    public void setHeureFin(LocalDateTime heureFin) {
         this.heureFin = heureFin;
     }
 

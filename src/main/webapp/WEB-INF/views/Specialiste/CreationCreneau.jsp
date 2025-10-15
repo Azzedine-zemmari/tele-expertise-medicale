@@ -218,6 +218,8 @@
           document.getElementById('crenauxInput').value = JSON.stringify(slots);
 
           calendar.unselect();
+          console.log("Debut : ",info.start)
+          console.log("Fin : ",info.end)
         },
         eventClick: function(info) {
           if(confirm("Supprimer ce créneau ?")) {
@@ -254,10 +256,10 @@
     <p>📊 Créneaux sélectionnés : <span class="slots-count" id="slotsCount">0 créneau</span></p>
   </div>
 
-  <form id="specialisteForm" action="${pageContext.request.contextPath}/specialistes/create" method="post">
+  <form id="specialisteForm" action="${pageContext.request.contextPath}/CreeCreneau" method="post">
     <div id="calendrier"></div>
     <input type="hidden" id="crenauxInput" name="crenaux" />
-
+    <input type="hidden" name="specialiste_id" value="${sessionScope.loggedUser.id}"/>
     <div class="submit-section">
       <button type="submit" class="btn-submit">Créer les creneux </button>
     </div>
