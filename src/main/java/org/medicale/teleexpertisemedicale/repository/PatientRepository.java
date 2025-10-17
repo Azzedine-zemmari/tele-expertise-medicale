@@ -117,4 +117,18 @@ public class PatientRepository {
             em.close();
         }
     }
+    public Patient findPatientByCIN(String cin){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+           List<Patient>results  = em.createQuery("SELECT p from Patient p where p.CIN = :cin ",Patient.class).setParameter("cin", cin).getResultList();
+           if(results.isEmpty()){
+               return null;
+           }
+           else {
+               return results.get(0);
+           }
+        }finally {
+            em.close();
+        }
+    }
 }

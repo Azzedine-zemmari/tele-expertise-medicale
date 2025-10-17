@@ -103,4 +103,22 @@ public class ConsultationRepository {
             em.close();
         }
     }
+    public void updateCount(double count , UUID consultationId){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.createQuery("UPDATE Consultation c SET c.count = c.count + :count WHERE c.id = :id")
+                .setParameter("count", count)
+                .setParameter("id", consultationId)
+                .executeUpdate();
+            em.getTransaction().commit();
+        }catch (Exception e){
+            if(em.getTransaction().isActive()){
+                em.getTransaction().rollback();
+                e.getMessage();
+            }
+        }finally {
+            em.close();
+        }
+    }
 }

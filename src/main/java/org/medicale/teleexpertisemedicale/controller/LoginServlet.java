@@ -44,6 +44,8 @@ public class LoginServlet extends HttpServlet {
                     req.getSession().setAttribute("loggedUser",user);
                     if(user.getRole().equals(Role.SPECIALISTE)){
                         req.getSession().setAttribute("specialiste",utilisateurRepository.findByUser(user.getId()));
+                        req.getRequestDispatcher("/WEB-INF/views/Specialiste/ProfileSpecialiste.jsp").forward(req,resp);
+                        return;
                     }
                     req.getSession().setAttribute("roleUser" , user.getRole());
                     // Forwared
@@ -62,3 +64,7 @@ public class LoginServlet extends HttpServlet {
 
     }
 }
+// todo : specialiste imchi profile dylo fin i9dr i dir creneu o ijwb f avis
+// todo : generalist imchi fille attente o i9dr idwz wach consultation ola demande avis zid lih statistics
+// todo : infirmier dkhl patient signe viteau o act medical tl3 liha fille attente fiha status bach t3rf status dyl kola patient
+// todo : figma

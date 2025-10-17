@@ -31,7 +31,7 @@ public class Patient {
     @OneToOne(mappedBy = "patient")
     private DossierMedical dossierMedical;
 
-    @Column(unique = true)
+    @Column(name = "cin", unique = true)
     private String CIN;
 
     public UUID getId() {

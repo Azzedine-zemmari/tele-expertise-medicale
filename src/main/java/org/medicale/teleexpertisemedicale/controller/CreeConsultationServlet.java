@@ -68,7 +68,7 @@ public class CreeConsultationServlet extends HttpServlet {
             // 2. Parse values safely
             UUID dossierMedicalUUID = UUID.fromString(dossier_medical_id);
             LocalDate consultationDate = LocalDate.parse(date);
-            int integerCount = Integer.parseInt(count);
+            Double integerCount = Double.parseDouble(count);
 
             // 3. Fetch dependencies
             DossierMedical dossierMedical = consultationRepository.findDossierMedicalById(dossierMedicalUUID);
@@ -95,16 +95,23 @@ public class CreeConsultationServlet extends HttpServlet {
 
             //  5. Loop for multiple TypeAct values
             if (typeActParam != null) {
+                double totalActPrice = 0;
                 for (String actValue : typeActParam) {
                         TypeAct actEnum = TypeAct.valueOf(actValue.trim().toUpperCase());
 
                         ActMedical actMedical = new ActMedical();
                         actMedical.setTypeAct(actEnum);
                         actMedical.setConsultation(consultation);
-                        actMedical.setCount(integerCount);
 
+                        double actPrice = actEnum.getPrice();
+                        actMedical.setCount(actPrice);
+
+                        totalActPrice += actPrice;
                         actMedicalRepository.save(actMedical);
                 }
+                double finalPrice = totalActPrice + consultation.getCount();
+                consultation.setCount(finalPrice);
+                consultationRepository.updateCount(finalPrice,consultation.getId());
             } else {
                 System.out.println("No TypeAct selected!");
             }

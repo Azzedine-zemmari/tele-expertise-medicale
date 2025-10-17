@@ -34,7 +34,7 @@ public class Consultation {
 
     private String traitement;
 
-    private Integer count;
+    private Double count;
 
     @Enumerated(EnumType.STRING)
     private StatusConsultation status_consultation;
@@ -95,11 +95,11 @@ public class Consultation {
         this.traitement = traitement;
     }
 
-    public Integer getCount() {
+    public Double getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(Double count) {
         this.count = count;
     }
 
