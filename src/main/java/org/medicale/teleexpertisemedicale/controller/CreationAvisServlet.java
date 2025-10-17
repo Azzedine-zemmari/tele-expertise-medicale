@@ -37,16 +37,16 @@ public class CreationAvisServlet  extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/views/Specialiste/CreationAvis.jsp").forward(req, resp);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String demandeavisID = req.getParameter("demandeExpertise");
-        UUID demandeavisUUID = UUID.fromString(demandeavisID);
-        LocalDate dateAvis = LocalDate.now();
-        StatusExperitse statusExperitse = StatusExperitse.TERMINE;
-        String avis = req.getParameter("avis");
-
-        demandeExpertiseRepository.AddAvis(demandeavisUUID, avis, dateAvis,statusExperitse);
-        resp.sendRedirect(req.getContextPath() + "/CreationAvis?success=true");
-
-    }
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String demandeavisID = req.getParameter("demandeExpertise");
+//        UUID demandeavisUUID = UUID.fromString(demandeavisID);
+//        LocalDate dateAvis = LocalDate.now();
+//        StatusExperitse statusExperitse = StatusExperitse.TERMINE;
+//        String avis = req.getParameter("avis");
+//
+//        demandeExpertiseRepository.AddAvis(demandeavisUUID, avis, dateAvis,statusExperitse);
+//        resp.sendRedirect(req.getContextPath() + "/CreationAvis?success=true");
+//
+//    }
 }

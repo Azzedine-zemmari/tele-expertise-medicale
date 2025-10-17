@@ -6,6 +6,7 @@ import org.medicale.teleexpertisemedicale.model.StatusExperitse;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -33,9 +34,29 @@ public class DemandeExpertiseRepository {
     public List<DemandeExpertise> findAllDemandeExpertiseForSpecialiste(UUID specialistId) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        List<DemandeExpertise> demandeExpertiseList = em.createQuery("select de from DemandeExpertise de where de.specialiste.id = :id").setParameter("id",specialistId).getResultList();
+        List<DemandeExpertise> demandeExpertiseList = em.createQuery("select de from DemandeExpertise de JOIN FETCH de.consultation C JOIN FETCH C.dossierMedical d where de.specialiste.id = :id and de.statusExpertise != 'TERMINE'").setParameter("id",specialistId).getResultList();
         em.getTransaction().commit();
         return demandeExpertiseList;
+    }
+    public DemandeExpertise findDetailsForDemandeExpertise(UUID id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.createQuery(
+                            "SELECT de FROM DemandeExpertise de " +
+                                    "JOIN FETCH de.consultation c " +
+                                    "JOIN FETCH c.dossierMedical dm " +
+                                    "WHERE de.id = :id", DemandeExpertise.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+    public DemandeExpertise findById(UUID id) {
+        EntityManager em = emf.createEntityManager();
+        return em.find(DemandeExpertise.class, id);
     }
     public void AddAvis(UUID demandeId, String avis, LocalDate dateAvis , StatusExperitse statusExpertise) {
         EntityManager em = emf.createEntityManager();
