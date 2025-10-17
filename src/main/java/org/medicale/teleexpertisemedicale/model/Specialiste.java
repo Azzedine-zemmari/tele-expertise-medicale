@@ -1,6 +1,8 @@
 package org.medicale.teleexpertisemedicale.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +21,9 @@ public class Specialiste {
     private Utilisateur utilisateur;
 
     private String specialiste;
+
+    @OneToMany(mappedBy = "specialiste")
+    private List<Creneu> creneaux = new ArrayList<>();
 
     public UUID getId() {
         return id;
@@ -58,5 +63,12 @@ public class Specialiste {
 
     public void setSpecialiste(String specialiste) {
         this.specialiste = specialiste;
+    }
+    public List<Creneu> getCreneaux() {
+        return creneaux;
+    }
+
+    public void setCreneaux(List<Creneu> creneaux) {
+        this.creneaux = creneaux;
     }
 }

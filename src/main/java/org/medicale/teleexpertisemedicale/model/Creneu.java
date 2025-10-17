@@ -22,8 +22,8 @@ public class Creneu {
 
     private boolean disponibilite;
 
-    @OneToOne
-    @JoinColumn(name = "specialiste_id", unique = true)
+    @ManyToOne
+    @JoinColumn(name = "specialiste_id")
     private Specialiste specialiste;
 
     // Getters and Setters
