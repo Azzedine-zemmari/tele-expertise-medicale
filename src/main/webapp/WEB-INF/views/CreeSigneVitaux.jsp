@@ -174,6 +174,7 @@
     </div>
 
     <form method="post" action="${pageContext.request.contextPath}/SigneVital">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
         <div class="form-row">
             <div class="form-group">
                 <label for="firstName">Patient</label>

@@ -429,6 +429,7 @@
                 </li>
                 <li>
                     <form method="post" action="${pageContext.request.contextPath}/logout" class="logout-form">
+                        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                         <button type="submit" class="logout-btn">
                             🚪 Logout
                         </button>

@@ -256,6 +256,7 @@
     </c:if>
 
     <form method="post" action="${pageContext.request.contextPath}/filter" class="filter-form">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
         <select name="statusExpertise">
             <option value="EN_ATTENTE">EN_ATTENTE</option>
             <option value="TERMINE">TERMINE</option>

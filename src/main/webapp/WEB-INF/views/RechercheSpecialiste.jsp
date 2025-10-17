@@ -267,6 +267,7 @@
     <div class="card">
         <h2 class="section-title">📋 Demande d'Expertise</h2>
         <form method="post" action="${pageContext.request.contextPath}/demande-expertise/create">
+            <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
             <input type="hidden" name="consultationId" value="${param.consultationId}" />
             <input type="hidden" id="specialistId" name="specialistId" value=""/>
 

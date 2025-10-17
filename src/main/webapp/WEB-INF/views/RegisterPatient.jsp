@@ -336,6 +336,7 @@
             <!-- Patient Not Found - Registration Form -->
             <h2 class="form-section-title">➕ Register New Patient</h2>
             <form method="post" action="${pageContext.request.contextPath}/Register-Patient">
+                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name</label>

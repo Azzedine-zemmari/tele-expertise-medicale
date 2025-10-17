@@ -336,6 +336,7 @@
     <a href="${pageContext.request.contextPath}/Dossier-Medical" class="btn btn-consult">Cree dossier medical</a>
 </c:if>
 <form method="post" action="${pageContext.request.contextPath}/logout" class="logout-form">
+    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
     <button type="submit" class="logout-btn">
         🚪 Logout
     </button>

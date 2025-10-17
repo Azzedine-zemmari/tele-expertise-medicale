@@ -257,6 +257,7 @@
   </div>
 
   <form id="specialisteForm" action="${pageContext.request.contextPath}/CreeCreneau" method="post">
+    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
     <div id="calendrier"></div>
     <input type="hidden" id="crenauxInput" name="crenaux" />
     <input type="hidden" name="specialiste_id" value="${sessionScope.specialiste.getId()}"/>

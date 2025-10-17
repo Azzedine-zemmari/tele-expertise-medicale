@@ -190,6 +190,7 @@
     </div>
 
     <form method="post" action="${pageContext.request.contextPath}/login">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
         <a href="${pageContext.request.contextPath}/Register">Register</a>
         <div class="form-group">
             <label for="email">Email</label>

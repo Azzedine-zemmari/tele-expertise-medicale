@@ -184,6 +184,7 @@
     </div>
 
     <form method="post" action="${pageContext.request.contextPath}/Register">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
         <a href="${pageContext.request.contextPath}/login">Login</a>
         <div class="form-row">
             <div class="form-group">

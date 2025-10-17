@@ -242,7 +242,8 @@
 
   <div class="form-content">
     <form method="post" action="${pageContext.request.contextPath}/CreeConsultation">
-        <div class="form-group" style="display: none">
+      <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+      <div class="form-group" style="display: none">
           <label for="bloodType">Dossier Medical</label>
             <input name="dossier_medical_id"  value="${dossier_medical.id}" />
         </div>

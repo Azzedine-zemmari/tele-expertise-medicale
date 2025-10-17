@@ -177,6 +177,7 @@
         <a href="${pageContext.request.contextPath}/fille_attente">retour a fille d attent</a>
     </c:if>
     <form method="post" action="${pageContext.request.contextPath}/Dossier-Medical">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
         <div class="form-row">
             <div class="form-group">
                 <label for="firstName">Utilisateur</label>

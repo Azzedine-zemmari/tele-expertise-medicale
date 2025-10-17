@@ -151,6 +151,7 @@
   </div>
 
   <form method="post" action="${pageContext.request.contextPath}/actmedical">
+    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
     <div class="form-group">
       <label for="consultation">Consultation</label>
       <select name="consultation" id="consultation">

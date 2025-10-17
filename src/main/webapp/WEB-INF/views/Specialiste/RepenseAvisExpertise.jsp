@@ -176,6 +176,7 @@
     </div>
 
     <form method="post" action="${pageContext.request.contextPath}/AnswerAvis">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
         <input type="hidden" name="demandeExpertise" value="${param.id}"/>
         <div class="form-group">
             <label for="avis">💬 Votre Avis Médical</label>
