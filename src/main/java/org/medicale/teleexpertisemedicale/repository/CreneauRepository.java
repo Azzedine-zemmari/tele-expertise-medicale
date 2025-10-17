@@ -32,5 +32,16 @@ public class CreneauRepository {
         EntityManager em = emf.createEntityManager();
         return em.createQuery("SELECT C from Creneu C WHERE C.specialiste.id = :specialisteId and C.disponibilite=true").setParameter("specialisteId", specialisteId).getResultList();
     }
-    
+
+    public Creneu findCreneauById(UUID id) {
+        EntityManager em = emf.createEntityManager();
+        return em.find(Creneu.class, id);
+    }
+
+    public void UpdateCreneauStatus(UUID id) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("UPDATE Creneu c set c.disponibilite = false where c.id = :id").setParameter("id", id).executeUpdate();
+        em.getTransaction().commit();
+    }
 }

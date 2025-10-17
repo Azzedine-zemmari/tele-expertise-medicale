@@ -1,10 +1,8 @@
 package org.medicale.teleexpertisemedicale.controller;
 
-import org.medicale.teleexpertisemedicale.model.Consultation;
-import org.medicale.teleexpertisemedicale.model.DemandeExpertise;
-import org.medicale.teleexpertisemedicale.model.Specialiste;
-import org.medicale.teleexpertisemedicale.model.StatusExperitse;
+import org.medicale.teleexpertisemedicale.model.*;
 import org.medicale.teleexpertisemedicale.repository.ConsultationRepository;
+import org.medicale.teleexpertisemedicale.repository.CreneauRepository;
 import org.medicale.teleexpertisemedicale.repository.DemandeExpertiseRepository;
 import org.medicale.teleexpertisemedicale.repository.SpecialisteRepository;
 
@@ -16,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @WebServlet("/demande-expertise/create")
@@ -23,6 +22,7 @@ public class DemandeExpertiseServlet extends HttpServlet {
     private DemandeExpertiseRepository demandeExpertiseRepository;
     private ConsultationRepository consultationRepository;
     private SpecialisteRepository specialisteRepository;
+    private CreneauRepository creneauRepository;
 
     @Override
     public void init() throws ServletException {
@@ -30,19 +30,27 @@ public class DemandeExpertiseServlet extends HttpServlet {
         demandeExpertiseRepository = new DemandeExpertiseRepository(entityMangerFactory);
         consultationRepository = new ConsultationRepository(entityMangerFactory);
         specialisteRepository = new SpecialisteRepository(entityMangerFactory);
+        creneauRepository = new CreneauRepository(entityMangerFactory);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
 
-        String dateDemand = req.getParameter("datedemande");
+        String CreneuId = req.getParameter("datedemande");
         String question = req.getParameter("question");
         String priorite = req.getParameter("priorite");
         String consultationId = req.getParameter("consultationId");
         String specialisteId = req.getParameter("specialistId");
          System.out.println(consultationId);
         UUID consultationUuid = UUID.fromString(consultationId);
+
+
+        UUID creneauUuid = UUID.fromString(CreneuId);
+        Creneu creneu =  creneauRepository.findCreneauById(creneauUuid);
+
+        LocalDateTime debutCreneu = creneu.getHeureDebut();
+        LocalDateTime finCreneu = creneu.getHeureFin();
 
             System.out.println("Searching for Consultation with ID: " + consultationId);
 
@@ -56,13 +64,14 @@ public class DemandeExpertiseServlet extends HttpServlet {
             if (specialiste == null) throw new RuntimeException("Specialiste not found with ID: " + specialisteId);
 
         DemandeExpertise demandeExpertise = new DemandeExpertise();
-        demandeExpertise.setDateDemand(dateDemand);
+        demandeExpertise.setDateDemand("" + debutCreneu + finCreneu);
         demandeExpertise.setQuestion(question);
         demandeExpertise.setPriority(priorite);
         demandeExpertise.setStatusExpertise(StatusExperitse.EN_ATTENTE);
         demandeExpertise.setConsultation(consultation);
         demandeExpertise.setSpecialiste(specialiste);
         demandeExpertiseRepository.save(demandeExpertise);
+        creneauRepository.UpdateCreneauStatus(creneauUuid);
         }catch (Exception e){
             e.printStackTrace();
         }

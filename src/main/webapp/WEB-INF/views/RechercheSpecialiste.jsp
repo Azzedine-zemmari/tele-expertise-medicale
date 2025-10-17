@@ -327,7 +327,7 @@
 
                         const StartStr = startDate.year + '-' + startDate.month + '-' + startDate.day +' ' + startTime.hour + ':' + startTime.minute ;
                         const EndStr =  endTime.hour + ':' + endTime.minute ;
-                        creneauSelect.innerHTML += '<option value="'+ StartStr + '|' + EndStr +'">'+ StartStr +' - ' + EndStr +'</option>';
+                        creneauSelect.innerHTML += '<option value="'+creneu.id+'">'+ StartStr +' - ' + EndStr +'</option>';
                     })
                 }
                 creneauSelect.disabled = false;
