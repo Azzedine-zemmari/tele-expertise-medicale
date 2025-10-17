@@ -1,13 +1,11 @@
 package org.medicale.teleexpertisemedicale.repository;
 
 
-import org.medicale.teleexpertisemedicale.model.Consultation;
-import org.medicale.teleexpertisemedicale.model.DossierMedical;
-import org.medicale.teleexpertisemedicale.model.Generalist;
-import org.medicale.teleexpertisemedicale.model.SigneVital;
+import org.medicale.teleexpertisemedicale.model.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.UUID;
 

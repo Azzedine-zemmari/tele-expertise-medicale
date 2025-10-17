@@ -5,6 +5,7 @@ import org.medicale.teleexpertisemedicale.model.Patient;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -78,6 +79,19 @@ public class DossierMedicalRepository {
         EntityManager em = entityManagerFactory.createEntityManager();
         try{
             return em.createQuery("SELECT p From Patient p", Patient.class).getResultList();
+        }finally {
+            em.close();
+        }
+    }
+    public Patient getPatientByDossierMedicalId(UUID id){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try{
+            return em.createQuery("SELECT d.patient from DossierMedical d JOIN d.patient p where d.id = :id", Patient.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+
+        }catch (NoResultException $e){
+            return null;
         }finally {
             em.close();
         }

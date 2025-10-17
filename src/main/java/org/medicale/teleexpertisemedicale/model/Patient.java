@@ -34,6 +34,8 @@ public class Patient {
     @Column(name = "cin", unique = true)
     private String CIN;
 
+    private String Status_patient ;
+
     public UUID getId() {
         return id;
     }
@@ -112,5 +114,13 @@ public class Patient {
 
     public void setDossierMedical(DossierMedical dossierMedical) {
         this.dossierMedical = dossierMedical;
+    }
+
+    public String getStatus_patient() {
+        return Status_patient;
+    }
+
+    public void setStatus_patient(String status_patient) {
+        Status_patient = status_patient;
     }
 }

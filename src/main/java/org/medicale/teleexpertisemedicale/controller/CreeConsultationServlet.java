@@ -3,6 +3,8 @@ package org.medicale.teleexpertisemedicale.controller;
 import org.medicale.teleexpertisemedicale.model.*;
 import org.medicale.teleexpertisemedicale.repository.ActMedicalRepository;
 import org.medicale.teleexpertisemedicale.repository.ConsultationRepository;
+import org.medicale.teleexpertisemedicale.repository.DossierMedicalRepository;
+import org.medicale.teleexpertisemedicale.repository.PatientRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.ServletException;
@@ -20,11 +22,15 @@ public class CreeConsultationServlet extends HttpServlet {
 
     private ConsultationRepository consultationRepository;
     private ActMedicalRepository actMedicalRepository;
+    private DossierMedicalRepository  dossierMedicalRepository;
+    private PatientRepository patientRepository;
     @Override
     public void init() throws ServletException{
         EntityManagerFactory emf = (EntityManagerFactory) getServletContext().getAttribute("emf");
         consultationRepository = new ConsultationRepository(emf);
         actMedicalRepository = new ActMedicalRepository(emf);
+        dossierMedicalRepository = new DossierMedicalRepository(emf);
+        patientRepository = new PatientRepository(emf);
     }
 
     @Override
@@ -92,6 +98,9 @@ public class CreeConsultationServlet extends HttpServlet {
             }
 
             consultationRepository.saveConsultation(consultation);
+            Patient p = dossierMedicalRepository.getPatientByDossierMedicalId(dossierMedicalUUID);
+            p.setStatus_patient("Consultation");
+            patientRepository.UpdatePatientStatus(p);
 
             //  5. Loop for multiple TypeAct values
             if (typeActParam != null) {

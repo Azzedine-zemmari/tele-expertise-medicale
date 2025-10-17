@@ -332,7 +332,7 @@
 </head>
 <body>
 <c:if test="${sessionScope.roleUser == 'INFIRMIER'}">
-    <a href="/Register-Patient" class="btn btn-consult">register patient</a>
+    <a href="${pageContext.request.contextPath}/Register-Patient" class="btn btn-consult">register patient</a>
 </c:if>
 <div class="container">
     <div class="page-header">

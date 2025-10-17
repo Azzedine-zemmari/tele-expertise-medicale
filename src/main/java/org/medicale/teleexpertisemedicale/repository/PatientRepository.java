@@ -110,7 +110,7 @@ public class PatientRepository {
     public List<Patient> findPatientDateArriveToday(){
         EntityManager em = entityManagerFactory.createEntityManager();
         try{
-            return em.createQuery("SELECT DISTINCT p from Patient  p JOIN FETCH p.dossierMedical dm join fetch p.signesVitaux sn  Where p.date_arrive = :date", Patient.class)
+            return em.createQuery("SELECT DISTINCT p from Patient  p JOIN FETCH p.dossierMedical dm join fetch p.signesVitaux sn  Where p.date_arrive = :date and p.Status_patient = 'EN_ATTENTE' order by p.date_arrive desc", Patient.class)
                     .setParameter("date", LocalDate.now())
                     .getResultList();
         }finally {
@@ -130,5 +130,15 @@ public class PatientRepository {
         }finally {
             em.close();
         }
+    }
+    public void UpdatePatientStatus(Patient p) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("UPDATE Patient p SET p.Status_patient = :status WHERE p.id = :id")
+                .setParameter("status", p.getStatus_patient())
+                .setParameter("id", p.getId())
+                .executeUpdate();
+        em.getTransaction().commit();
+        em.close();
     }
 }
