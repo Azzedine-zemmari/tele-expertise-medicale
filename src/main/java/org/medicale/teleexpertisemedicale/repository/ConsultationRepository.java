@@ -107,7 +107,7 @@ public class ConsultationRepository {
         EntityManager em = entityManagerFactory.createEntityManager();
         try{
             em.getTransaction().begin();
-            em.createQuery("UPDATE Consultation c SET c.count = c.count + :count WHERE c.id = :id")
+            em.createQuery("UPDATE Consultation c SET c.count = :count WHERE c.id = :id")
                 .setParameter("count", count)
                 .setParameter("id", consultationId)
                 .executeUpdate();

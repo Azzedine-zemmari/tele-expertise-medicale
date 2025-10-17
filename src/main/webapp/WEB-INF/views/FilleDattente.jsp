@@ -154,6 +154,7 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             animation: fadeIn 0.3s ease;
+            overflow-y: auto;
         }
 
         @keyframes fadeIn {
@@ -167,7 +168,9 @@
             padding: 30px;
             border-radius: 15px;
             width: 90%;
-            max-width: 600px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.3s ease;
         }
@@ -261,6 +264,60 @@
             color: #333;
         }
 
+        /* Vital Signs Record Styles */
+        .vitals-record {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .vitals-record:last-child {
+            margin-bottom: 0;
+        }
+
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .record-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .record-date {
+            color: #999;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .empty-vitals {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-vitals p {
+            font-size: 15px;
+        }
+
         .empty-state {
             text-align: center;
             padding: 40px;
@@ -274,6 +331,9 @@
     </style>
 </head>
 <body>
+<c:if test="${sessionScope.roleUser == 'INFIRMIER'}">
+    <a href="/Register-Patient" class="btn btn-consult">register patient</a>
+</c:if>
 <div class="container">
     <div class="page-header">
         <h1>📋 File d'Attente</h1>
@@ -312,7 +372,9 @@
                             <div class="action-cell">
                                 <button class="btn btn-vitals" onclick="openVitalsModal('vitals-${p.CIN}')">Signes Vitaux</button>
                                 <button class="btn btn-medical" onclick="openMedicalModal('medical-${p.CIN}')">Dossier Médical</button>
+                                <c:if test="${sessionScope.roleUser != 'INFIRMIER'}">
                                 <a href="CreeConsultation?dossier_medical_id=${p.dossierMedical.id}" class="btn btn-consult">Consultation</a>
+                                </c:if>
                             </div>
                         </td>
                     </tr>
@@ -335,27 +397,40 @@
                             <div class="info-label">Patient</div>
                             <div class="info-value">${p.prenom} ${p.nom}</div>
                         </div>
-                        <div class="vitals-grid">
-                            <c:forEach var="sn" items="${p.signesVitaux}">
-                                <div class="vital-item">
-                                    <div class="vital-label">Tension</div>
-                                    <div class="vital-value">${sn.tension}</div>
+
+                        <c:forEach var="sn" items="${p.signesVitaux}" varStatus="status">
+                            <div class="vitals-record">
+                                <div class="record-header">
+                                    <span class="record-badge">📋 Enregistrement #${status.count}</span>
+                                    <span class="record-date">${sn.date_mesure != null ? sn.date_mesure : 'Date non disponible'}</span>
                                 </div>
-<%--                                todo : ajouter l autre sn --%>
-                                <div class="vital-item">
-                                    <div class="vital-label">Température</div>
-                                    <div class="vital-value">${sn.temperature}°C</div>
+                                <div class="vitals-grid">
+                                    <div class="vital-item">
+                                        <div class="vital-label">💉 Tension</div>
+                                        <div class="vital-value">${sn.tension} mmHg</div>
+                                    </div>
+                                    <div class="vital-item">
+                                        <div class="vital-label">🌡️ Température</div>
+                                        <div class="vital-value">${sn.temperature}°C</div>
+                                    </div>
+                                    <div class="vital-item">
+                                        <div class="vital-label">❤️ Fréquence Cardiaque</div>
+                                        <div class="vital-value">${sn.frequenceCardiaque} bpm</div>
+                                    </div>
+                                    <div class="vital-item">
+                                        <div class="vital-label">⚖️ Poids</div>
+                                        <div class="vital-value">${sn.poids} kg</div>
+                                    </div>
                                 </div>
-                                <div class="vital-item">
-                                    <div class="vital-label">Température</div>
-                                    <div class="vital-value">${sn.temperature}°C</div>
-                                </div>
-                                <div class="vital-item">
-                                    <div class="vital-label">Température</div>
-                                    <div class="vital-value">${sn.temperature}°C</div>
-                                </div>
-                            </c:forEach>
-                        </div>
+                            </div>
+                        </c:forEach>
+
+                        <c:if test="${empty p.signesVitaux}">
+                            <div class="empty-vitals">
+                                <div class="empty-icon">📊</div>
+                                <p>Aucun signe vital enregistré pour ce patient</p>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>

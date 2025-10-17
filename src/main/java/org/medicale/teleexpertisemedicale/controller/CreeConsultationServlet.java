@@ -80,7 +80,7 @@ public class CreeConsultationServlet extends HttpServlet {
             // 4. Build Consultation
             Consultation consultation = new Consultation();
             consultation.setDossierMedical(dossierMedical);
-            consultation.setDate(consultationDate);
+            consultation.setDate(consultationDate); // change to date now
             consultation.setMotif(motif);
             consultation.setDiagnostique(diagnostique);
             consultation.setTraitement(traitement);

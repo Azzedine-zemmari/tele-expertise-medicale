@@ -312,12 +312,14 @@
         fetch('${pageContext.request.contextPath}/getCreneaux?specialisteId=' + specialistId)
             .then(response => response.json())
             .then(data => {
+            console.log("Received creneaux:", data);
                 creneauSelect.innerHTML = ""
                 if(data.length == 0){
                     creneauSelect.innerHTML = '<option value="">Aucun créneau disponible</option>';
                 }
                 else{
                     data.forEach(creneu =>{
+                        console.log(creneu);
                         const startDate = creneu.heureDebut.date;
                         const startTime = creneu.heureDebut.time;
                         const endDate = creneu.heureFin.date;

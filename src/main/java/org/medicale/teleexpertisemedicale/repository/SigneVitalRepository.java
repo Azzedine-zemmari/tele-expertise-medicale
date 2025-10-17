@@ -30,7 +30,7 @@ public class SigneVitalRepository {
     public SigneVital getSigneVital(UUID id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try{
-            return entityManager.find(SigneVital.class,id);
+            return entityManager.createQuery("SELECT s FROM SigneVital s  where s.patient.id = :id ",SigneVital.class).setParameter("id", id).getSingleResult();
         }finally {
             entityManager.close();
         }
