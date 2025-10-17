@@ -165,6 +165,48 @@
             transform: translateY(0);
         }
 
+        .filter-form {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-form select {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f8f9fa;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-form select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-form button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .filter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .filter-form button:active {
+            transform: translateY(0);
+        }
+
         @media (max-width: 480px) {
             .container {
                 padding: 30px 20px;
@@ -184,6 +226,17 @@
                 font-size: 12px;
                 padding: 6px 10px;
             }
+
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-form select,
+            .filter-form button {
+                font-size: 12px;
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -202,8 +255,50 @@
         </div>
     </c:if>
 
-    <!-- Table for DemandeExpertise with Action Buttons -->
-    <c:if test="${not empty demandeExpertiseList}">
+    <form method="post" action="${pageContext.request.contextPath}/filter" class="filter-form">
+        <select name="statusExpertise">
+            <option value="EN_ATTENTE">EN_ATTENTE</option>
+            <option value="TERMINE">TERMINE</option>
+        </select>
+        <select name="priority">
+            <option value="BASSE">BASSE</option>
+            <option value="MOYENNE">MOYENNE</option>
+            <option value="HAUTE">HAUTE</option>
+        </select>
+        <button type="submit">Filtrer</button>
+    </form>
+
+    <!-- Filtered Table for expertises -->
+    <c:if test="${not empty expertises}">
+        <table class="details-table">
+            <thead>
+            <tr>
+                <th>Question</th>
+                <th>Priorité</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="d" items="${expertises}">
+                <tr>
+                    <td><c:out value="${d.question != null ? d.question : 'N/A'}" /></td>
+                    <td><c:out value="${d.priority != null ? d.priority : 'N/A'}" /></td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/DemandeExpertiseDetails?id=${d.id}" class="action-btn details-btn">
+                            <span>🔍</span> Détails
+                        </a>
+                        <a href="${pageContext.request.contextPath}/AnswerAvis?id=${d.id}" class="action-btn answer-btn">
+                            <span>📝</span> Répondre
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
+    <!-- Original Table for demandeExpertiseList (shown only if expertises is empty) -->
+    <c:if test="${empty expertises && not empty demandeExpertiseList}">
         <table class="details-table">
             <thead>
             <tr>
@@ -218,7 +313,7 @@
                     <td><c:out value="${d.question != null ? d.question : 'N/A'}" /></td>
                     <td><c:out value="${d.priority != null ? d.priority : 'N/A'}" /></td>
                     <td>
-                            <a href="${pageContext.request.contextPath}/DemandeExpertiseDetails?id=${d.id}" class="action-btn details-btn">
+                        <a href="${pageContext.request.contextPath}/DemandeExpertiseDetails?id=${d.id}" class="action-btn details-btn">
                             <span>🔍</span> Détails
                         </a>
                         <a href="${pageContext.request.contextPath}/AnswerAvis?id=${d.id}" class="action-btn answer-btn">
@@ -230,7 +325,8 @@
             </tbody>
         </table>
     </c:if>
-    <c:if test="${empty demandeExpertiseList}">
+
+    <c:if test="${empty expertises && empty demandeExpertiseList}">
         <div class="alert alert-info">
             <span class="alert-icon">ℹ️</span>
             <span>Aucune demande d'expertise trouvée pour ce spécialiste.</span>

@@ -34,10 +34,23 @@ public class DemandeExpertiseRepository {
     public List<DemandeExpertise> findAllDemandeExpertiseForSpecialiste(UUID specialistId) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        List<DemandeExpertise> demandeExpertiseList = em.createQuery("select de from DemandeExpertise de JOIN FETCH de.consultation C JOIN FETCH C.dossierMedical d where de.specialiste.id = :id and de.statusExpertise != 'TERMINE'").setParameter("id",specialistId).getResultList();
+        List<DemandeExpertise> demandeExpertiseList = em.createQuery("select de from DemandeExpertise de JOIN FETCH de.consultation C JOIN FETCH C.dossierMedical d where de.specialiste.id = :id ").setParameter("id",specialistId).getResultList();
         em.getTransaction().commit();
         return demandeExpertiseList;
     }
+
+    public List<DemandeExpertise> FilterDemandeExpertiseForSpecialisteBYSTATUSANDPRIORITE(UUID specialistId , StatusExperitse statusExperitse , String priority) {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        List<DemandeExpertise> demandeExpertiseList = em.createQuery("select de from DemandeExpertise de JOIN FETCH de.consultation C JOIN FETCH C.dossierMedical d where de.specialiste.id = :id and de.statusExpertise = :statusExperitse and de.priority = :priority ")
+                .setParameter("id",specialistId)
+                .setParameter("statusExperitse",statusExperitse)
+                .setParameter("priority",priority)
+                .getResultList();
+        em.getTransaction().commit();
+        return demandeExpertiseList;
+    }
+
     public DemandeExpertise findDetailsForDemandeExpertise(UUID id) {
         EntityManager em = emf.createEntityManager();
         try {
