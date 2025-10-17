@@ -341,6 +341,15 @@
                                     <div class="vital-label">Tension</div>
                                     <div class="vital-value">${sn.tension}</div>
                                 </div>
+<%--                                todo : ajouter l autre sn --%>
+                                <div class="vital-item">
+                                    <div class="vital-label">Température</div>
+                                    <div class="vital-value">${sn.temperature}°C</div>
+                                </div>
+                                <div class="vital-item">
+                                    <div class="vital-label">Température</div>
+                                    <div class="vital-value">${sn.temperature}°C</div>
+                                </div>
                                 <div class="vital-item">
                                     <div class="vital-label">Température</div>
                                     <div class="vital-value">${sn.temperature}°C</div>

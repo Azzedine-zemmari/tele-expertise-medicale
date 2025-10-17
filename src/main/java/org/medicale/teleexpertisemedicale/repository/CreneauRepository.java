@@ -4,6 +4,8 @@ import org.medicale.teleexpertisemedicale.model.Creneu;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.List;
+import java.util.UUID;
 
 public class CreneauRepository {
    private final EntityManagerFactory emf;
@@ -22,5 +24,13 @@ public class CreneauRepository {
        }finally {
            em.close();
        }
+   }
+   public List<Creneu> findCreneauBySpecialisteId(UUID specialisteId ) {
+       EntityManager em = emf.createEntityManager();
+        try{
+           return em.createQuery("SELECT C from Creneu C WHERE C.specialiste.id = :specialisteId and C.disponibilite=true").setParameter("specialisteId", specialisteId).getResultList();
+       }finally {
+            em.close();
+        }
    }
 }

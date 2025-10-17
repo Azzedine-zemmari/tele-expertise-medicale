@@ -14,7 +14,7 @@ public class DemandeExpertise {
     private UUID id;
 
     @Column(name = "date_demand")
-    private LocalDate dateDemand;
+    private String dateDemand;
 
     private String question;
 
@@ -35,8 +35,8 @@ public class DemandeExpertise {
     private Consultation consultation;
 
     //  One-to-one with Specialiste
-    @OneToOne
-    @JoinColumn(name = "speciality_id", unique = true)
+    @ManyToOne
+    @JoinColumn(name = "specialiste_id")
     private Specialiste specialiste;
 
     //  Constructors
@@ -51,11 +51,11 @@ public class DemandeExpertise {
         this.id = id;
     }
 
-    public LocalDate getDateDemand() {
+    public String getDateDemand() {
         return dateDemand;
     }
 
-    public void setDateDemand(LocalDate dateDemand) {
+    public void setDateDemand(String dateDemand) {
         this.dateDemand = dateDemand;
     }
 

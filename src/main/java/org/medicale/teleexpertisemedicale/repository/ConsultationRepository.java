@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ConsultationRepository {
-    private final EntityManagerFactory entityManagerFactory;
+    private EntityManagerFactory entityManagerFactory;
     public ConsultationRepository(EntityManagerFactory emf){
         this.entityManagerFactory = emf;
     }
@@ -98,7 +98,7 @@ public class ConsultationRepository {
     public Consultation findById(UUID id){
         EntityManager em = entityManagerFactory.createEntityManager();
         try{
-            return em.find(Consultation.class,id);
+            return em.createQuery("SELECT c from Consultation c where id = :id", Consultation.class).setParameter("id", id).getSingleResult();
         }finally {
             em.close();
         }

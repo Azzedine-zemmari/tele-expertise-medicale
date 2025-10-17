@@ -259,7 +259,7 @@
   <form id="specialisteForm" action="${pageContext.request.contextPath}/CreeCreneau" method="post">
     <div id="calendrier"></div>
     <input type="hidden" id="crenauxInput" name="crenaux" />
-    <input type="hidden" name="specialiste_id" value="${sessionScope.loggedUser.id}"/>
+    <input type="hidden" name="specialiste_id" value="${sessionScope.specialiste.getId()}"/>
     <div class="submit-section">
       <button type="submit" class="btn-submit">Créer les creneux </button>
     </div>

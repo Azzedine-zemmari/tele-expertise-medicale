@@ -1,5 +1,7 @@
 package org.medicale.teleexpertisemedicale.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -8,8 +10,9 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Utilisateur {
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "uuid")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
     @Column(length = 20)
@@ -21,7 +24,6 @@ public class Utilisateur {
     @Column(length = 60 , unique = true)
     private String email;
 
-    @Column(length = 60)
     private String password;
 
     @Enumerated(EnumType.STRING)

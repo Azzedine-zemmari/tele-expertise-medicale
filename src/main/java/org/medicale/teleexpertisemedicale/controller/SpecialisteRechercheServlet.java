@@ -32,6 +32,8 @@ public class SpecialisteRechercheServlet extends HttpServlet {
         try{
         Double tarif = Double.parseDouble(req.getParameter("tarif"));
             String specialite = req.getParameter("specialite");
+            String consultationId = req.getParameter("consultationId");
+            req.setAttribute("consultationId", consultationId);
             List<Specialiste> result = specialisteRepository.rechercheSpecialParTarifEtParSpecialite(specialite,tarif);
             req.setAttribute("specialistes",result);
             req.getRequestDispatcher("/WEB-INF/views/RechercheSpecialiste.jsp").forward(req,resp);

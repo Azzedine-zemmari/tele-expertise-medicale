@@ -1,6 +1,7 @@
 package org.medicale.teleexpertisemedicale.controller;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.medicale.teleexpertisemedicale.model.Role;
 import org.medicale.teleexpertisemedicale.model.Utilisateur;
 import org.medicale.teleexpertisemedicale.repository.UtilisateurRepository;
 
@@ -41,6 +42,9 @@ public class LoginServlet extends HttpServlet {
                 if(passwordEncryptor.checkPassword(password,storedPassord)){
                     // store user in session
                     req.getSession().setAttribute("loggedUser",user);
+                    if(user.getRole().equals(Role.SPECIALISTE)){
+                        req.getSession().setAttribute("specialiste",utilisateurRepository.findByUser(user.getId()));
+                    }
                     req.getSession().setAttribute("roleUser" , user.getRole());
                     // Forwared
                     resp.setContentType("text/plain");

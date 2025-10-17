@@ -74,10 +74,10 @@ public class UtilisateurRepository {
         }
     }
 
-    public Generalist findById(UUID id){
+    public Specialiste findByUser(UUID id){
         EntityManager em = entityManagerFactory.createEntityManager();
         try{
-            return em.find(Generalist.class,id);
+            return em.createQuery("SELECT S from Specialiste S where S.utilisateur.id  = :id",Specialiste.class).setParameter("id", id).getSingleResult();
         }finally {
             em.close();
         }

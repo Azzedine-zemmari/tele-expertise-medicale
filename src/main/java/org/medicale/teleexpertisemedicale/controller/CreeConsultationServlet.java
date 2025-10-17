@@ -91,7 +91,6 @@ public class CreeConsultationServlet extends HttpServlet {
                 consultation.setStatus_consultation(StatusConsultation.EN_ATTENTE_AVIS_SPECIALISTE);
             }
 
-            System.out.println("ACTION = " + action);
             consultationRepository.saveConsultation(consultation);
 
             //  5. Loop for multiple TypeAct values
@@ -110,8 +109,11 @@ public class CreeConsultationServlet extends HttpServlet {
                 System.out.println("No TypeAct selected!");
             }
 
-            resp.sendRedirect("dashboard");
-
+            if ("avis".equals(action)) {
+                resp.sendRedirect(req.getContextPath() + "/rechercher-specialiste?consultationId=" + consultation.getId());
+            } else {
+                resp.sendRedirect("dashboard");
+            }
         } catch (IllegalArgumentException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input format: " + e.getMessage());
         } catch (Exception e) {

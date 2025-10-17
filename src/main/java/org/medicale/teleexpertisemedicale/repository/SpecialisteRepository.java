@@ -25,9 +25,7 @@ public class SpecialisteRepository {
     public Specialiste findByID(UUID id){
         EntityManager em = emf.createEntityManager();
         try{
-            return em.createQuery("SELECT s FROM Specialiste s WHERE s.utilisateur.id = :userId",Specialiste.class)
-                    .setParameter("userId" , id)
-                    .getSingleResult();
+            return em.find(Specialiste.class, id);
         }finally{
             em.close();
         }

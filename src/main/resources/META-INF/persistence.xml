@@ -4,6 +4,16 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>org.medicale.teleexpertisemedicale.model.Patient</class>
+        <class>org.medicale.teleexpertisemedicale.model.ActMedical</class>
+        <class>org.medicale.teleexpertisemedicale.model.Consultation</class>
+        <class>org.medicale.teleexpertisemedicale.model.Creneu</class>
+        <class>org.medicale.teleexpertisemedicale.model.DemandeExpertise</class>
+        <class>org.medicale.teleexpertisemedicale.model.DossierMedical</class>
+        <class>org.medicale.teleexpertisemedicale.model.Generalist</class>
+        <class>org.medicale.teleexpertisemedicale.model.Infirmier</class>
+        <class>org.medicale.teleexpertisemedicale.model.SigneVital</class>
+        <class>org.medicale.teleexpertisemedicale.model.Specialiste</class>
+        <class>org.medicale.teleexpertisemedicale.model.Utilisateur</class>
 
         <properties>
             <!-- Database connection -->
@@ -16,6 +26,9 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.generate_statistics" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
