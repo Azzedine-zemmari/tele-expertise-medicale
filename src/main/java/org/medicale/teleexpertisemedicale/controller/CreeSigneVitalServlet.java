@@ -61,8 +61,9 @@ public class CreeSigneVitalServlet extends HttpServlet {
         signeVital.setPoids(poidsDouble);
         signeVital.setDate_mesure(LocalDate.now());
         signeVitalRepository.save(signeVital);
-            resp.setContentType("text/plain");
-            resp.getWriter().write("Signe vital inserted successfully" + signeVital.getId());
+            resp.sendRedirect(req.getContextPath() + "/fille_attente");
+//            resp.setContentType("text/plain");
+//            resp.getWriter().write("Signe vital inserted successfully" + signeVital.getId());
         }catch (Exception e){
             e.printStackTrace();
             resp.setContentType("text/plain");

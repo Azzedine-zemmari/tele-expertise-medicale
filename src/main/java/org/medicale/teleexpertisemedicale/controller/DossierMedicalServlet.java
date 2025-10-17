@@ -47,6 +47,12 @@ public class DossierMedicalServlet extends HttpServlet {
             UUID patient_uuid = UUID.fromString(patient_id);
             Patient patient = dossierMedicalRepository.findPatientById(patient_uuid);
 
+            DossierMedical dossierMedicalExist = dossierMedicalRepository.findDossierMedicalByPatientId(patient_uuid);
+            if(dossierMedicalExist != null){
+                req.setAttribute("errorMessage", "Le dossier medical pour ce patient existe");
+                req.getRequestDispatcher("/WEB-INF/views/DossierMedicalCreate.jsp").forward(req, resp);
+                return;
+            }
             DossierMedical dossierMedical = new DossierMedical();
             dossierMedical.setPatient(patient);
             dossierMedical.setBloodType(bloodType);
@@ -55,8 +61,9 @@ public class DossierMedicalServlet extends HttpServlet {
             dossierMedical.setPastSurgeries(pastSergery);
 
             dossierMedicalRepository.save(dossierMedical);
-            resp.setContentType("text/plain");
-            resp.getWriter().write("dossier Medical insrted successfully");
+            resp.sendRedirect(req.getContextPath() + "/fille_attente");
+//            resp.setContentType("text/plain");
+//            resp.getWriter().write("dossier Medical insrted successfully");
         }catch (Exception e){
             resp.getWriter().write("Erreur insertint dossier medical " + e.getMessage());
         }

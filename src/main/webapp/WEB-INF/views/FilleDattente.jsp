@@ -332,8 +332,14 @@
 </head>
 <body>
 <c:if test="${sessionScope.roleUser == 'INFIRMIER'}">
-    <a href="${pageContext.request.contextPath}/Register-Patient" class="btn btn-consult">register patient</a>
+    <a href="${pageContext.request.contextPath}/Register-Patient" class="btn btn-consult">Cree patient</a>
+    <a href="${pageContext.request.contextPath}/Dossier-Medical" class="btn btn-consult">Cree dossier medical</a>
 </c:if>
+<form method="post" action="${pageContext.request.contextPath}/logout" class="logout-form">
+    <button type="submit" class="logout-btn">
+        🚪 Logout
+    </button>
+</form>
 <div class="container">
     <div class="page-header">
         <h1>📋 File d'Attente</h1>

@@ -96,4 +96,16 @@ public class DossierMedicalRepository {
             em.close();
         }
     }
+        public DossierMedical findDossierMedicalByPatientId(UUID id){
+            EntityManager em = entityManagerFactory.createEntityManager();
+            try {
+                return em.createQuery("SELECT d FROM DossierMedical d WHERE d.patient.id = :id", DossierMedical.class)
+                        .setParameter("id", id)
+                        .getSingleResult();
+            } catch (NoResultException e) {
+                return null;
+            } finally {
+                em.close();
+            }
+        }
 }

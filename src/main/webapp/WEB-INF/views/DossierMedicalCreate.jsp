@@ -172,7 +172,10 @@
         <h1>Dossier Medical</h1>
         <hr/>
     </div>
-
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-danger">${errorMessage}</div>
+        <a href="${pageContext.request.contextPath}/fille_attente">retour a fille d attent</a>
+    </c:if>
     <form method="post" action="${pageContext.request.contextPath}/Dossier-Medical">
         <div class="form-row">
             <div class="form-group">

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @WebServlet(name = "RegisterPatient",value = "/Register-Patient")
@@ -52,14 +53,16 @@ public class RegisterPatientServlet extends HttpServlet {
         patient.setAddress(adress);
         patient.setNum_securite_social(ss);
         patient.setCIN(cin);
-        patient.setDate_arrive(LocalDate.now());
+        patient.setDate_arrive(LocalDateTime.now());
+        patient.setStatus_patient("EN_ATTENTE");
 
         patientRepository.save(patient);
-        // Response
-            resp.setContentType("text/plain");
-            resp.getWriter().write("Patient inserted successfully" + patient.getId());
+        resp.sendRedirect(req.getContextPath() + "/fille_attente");
+            // Response
+//            resp.setContentType("text/plain");
+//            resp.getWriter().write("Patient inserted successfully" + patient.getId());
         }catch (Exception e){
             resp.getWriter().write("Erreur inserting patient : " + e.getMessage());
-        }
+        }   
     }
 }

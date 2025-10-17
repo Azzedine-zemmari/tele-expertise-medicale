@@ -2,6 +2,7 @@ package org.medicale.teleexpertisemedicale.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class Patient {
 
     private String num_securite_social;
 
-    private LocalDate date_arrive;
+    private LocalDateTime date_arrive;
 
     @OneToMany(mappedBy = "patient")
     private List<SigneVital> signesVitaux;
@@ -92,11 +93,11 @@ public class Patient {
         this.prenom = prenom;
     }
 
-    public LocalDate getDate_arrive() {
+    public LocalDateTime getDate_arrive() {
         return date_arrive;
     }
 
-    public void setDate_arrive(LocalDate date_arrive) {
+    public void setDate_arrive(LocalDateTime date_arrive) {
         this.date_arrive = date_arrive;
     }
 
@@ -121,6 +122,6 @@ public class Patient {
     }
 
     public void setStatus_patient(String status_patient) {
-        Status_patient = status_patient;
+        this.Status_patient = status_patient;
     }
 }

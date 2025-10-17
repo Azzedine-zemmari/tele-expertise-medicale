@@ -8,8 +8,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PatientRepository {
 
@@ -43,11 +46,7 @@ public class PatientRepository {
 
     public List<Patient> findAll(){
         EntityManager em = entityManagerFactory.createEntityManager();
-        try{
-            return em.createQuery("SELECT p FROM Patient p",Patient.class).getResultList();
-        }finally {
-            em.close();
-        }
+        return em.createQuery("SELECT p FROM Patient p",Patient.class).getResultList();
     }
 
     @Transactional
@@ -108,14 +107,19 @@ public class PatientRepository {
         }
     }
     public List<Patient> findPatientDateArriveToday(){
-        EntityManager em = entityManagerFactory.createEntityManager();
-        try{
-            return em.createQuery("SELECT DISTINCT p from Patient  p JOIN FETCH p.dossierMedical dm join fetch p.signesVitaux sn  Where p.date_arrive = :date and p.Status_patient = 'EN_ATTENTE' order by p.date_arrive desc", Patient.class)
-                    .setParameter("date", LocalDate.now())
-                    .getResultList();
-        }finally {
-            em.close();
-        }
+//        EntityManager em = entityManagerFactory.createEntityManager();
+//        try{
+//            return em.createQuery("SELECT DISTINCT p from Patient  p JOIN FETCH p.dossierMedical dm join fetch p.signesVitaux sn  Where p.date_arrive = :date and p.Status_patient = 'EN_ATTENTE' order by p.date_arrive desc", Patient.class)
+//                    .setParameter("date", LocalDateTime.now())
+//                    .getResultList();
+//        }finally {
+//            em.close();
+//        }
+        return findAll().stream()
+                .filter(p -> p.getDate_arrive().toLocalDate().equals(LocalDate.now()))
+                .filter(p -> p.getStatus_patient().equalsIgnoreCase("EN_ATTENTE") )
+                .sorted(Comparator.comparing(Patient::getDate_arrive))
+                .collect(Collectors.toList());
     }
     public Patient findPatientByCIN(String cin){
         EntityManager em = entityManagerFactory.createEntityManager();
