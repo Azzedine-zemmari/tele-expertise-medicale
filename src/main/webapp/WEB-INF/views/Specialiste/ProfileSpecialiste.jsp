@@ -303,6 +303,10 @@
                 <span class="menu-icon">📋</span>
                 <span>Avis Expertise</span>
             </a>
+            <a href="${pageContext.request.contextPath}/specialiste-statistiques" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Statistiques</span>
+            </a>
         </nav>
     </aside>
 

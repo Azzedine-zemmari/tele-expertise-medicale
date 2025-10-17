@@ -90,5 +90,22 @@ public class DemandeExpertiseRepository {
         }
     }
 
+    public long countDemandeExpertise(UUID id) {
+        try{
+        EntityManager em = emf.createEntityManager();
+        return em.createQuery("SELECT COUNT(d) FROM DemandeExpertise d where d.specialiste.id = :id",Long.class)
+                .setParameter("id",id)
+                .getSingleResult();
+        }catch (NoResultException e){
+            return 0;
+        }
+    }
+    public double countRevenu(UUID id){
+            EntityManager em = emf.createEntityManager();
+            long countdemandeExpertise = countDemandeExpertise(id);
+            Double tarif = em.createQuery("select s.tarif from Specialiste s where s.id = : id",Double.class).setParameter("id",id).getSingleResult();
+            return countdemandeExpertise * tarif;
+    }
+
 
 }

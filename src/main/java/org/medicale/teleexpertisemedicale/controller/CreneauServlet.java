@@ -58,8 +58,7 @@ public class CreneauServlet extends HttpServlet {
                 c.setSpecialiste(specialiste);
                 c.setDisponibilite(true);
                 creneauRepository.save(c);
-                resp.setContentType("text/plain");
-                resp.getWriter().write("creneu insrted successfully");
+                req.getRequestDispatcher("/WEB-INF/views/Specialiste/ProfileSpecialiste.jsp").forward(req,resp);
 
             }
         }catch (Exception e){
