@@ -104,16 +104,15 @@ Avec règles :
 ## 🧰 Technologies Utilisées
 
 ### Backend
-| Technologie     | Rôle |
-|-----------------|------|
-| **Maven**       | Gestion des dépendances |
-| **Jakarta EE**  | Base web Java |
+| Technologie    | Rôle |
+|----------------|------|
+| **Maven**      | Gestion des dépendances |
+| **Jakarta EE** | Base web Java |
 | **Servlet / JSP / JSTL** | Front côté serveur |
-| **Tomcat**      | Serveur application |
+| **Tomcat**     | Serveur application |
 | **JPA / Hibernate** | Persistance |
-| **MySQL / PostgreSQL** | Base réelle |
-| **H2**          | Base de test |
+| **PostgreSQL** | Base réelle |
 | **Stream API / Lambda** | Traitements |
-| **bcrypt**      | Hashage mots de passe |
+| **bcrypt**     | Hashage mots de passe |
 
 ---
