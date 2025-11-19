@@ -222,6 +222,7 @@
     <div class="card">
         <h2 class="section-title">🩺 Rechercher un Spécialiste</h2>
         <form method="post" action="${pageContext.request.contextPath}/rechercher-specialiste">
+            <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
             <input type="hidden" name="consultationId" value="${consultationId != null ? consultationId : param.consultationId}"/>
 
             <div class="search-form">

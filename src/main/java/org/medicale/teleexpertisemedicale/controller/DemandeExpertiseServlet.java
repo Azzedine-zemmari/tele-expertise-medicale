@@ -72,6 +72,7 @@ public class DemandeExpertiseServlet extends HttpServlet {
         demandeExpertise.setSpecialiste(specialiste);
         demandeExpertiseRepository.save(demandeExpertise);
         creneauRepository.UpdateCreneauStatus(creneauUuid);
+        resp.sendRedirect("fille_attente");// FIX
         }catch (Exception e){
             e.printStackTrace();
         }

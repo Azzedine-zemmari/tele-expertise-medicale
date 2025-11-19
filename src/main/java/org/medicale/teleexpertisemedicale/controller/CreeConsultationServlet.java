@@ -128,7 +128,7 @@ public class CreeConsultationServlet extends HttpServlet {
             if ("avis".equals(action)) {
                 resp.sendRedirect(req.getContextPath() + "/rechercher-specialiste?consultationId=" + consultation.getId());
             } else {
-                resp.sendRedirect("dashboard");
+                resp.sendRedirect("fille_attente");
             }
         } catch (IllegalArgumentException e) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input format: " + e.getMessage());

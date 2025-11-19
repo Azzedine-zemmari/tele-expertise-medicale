@@ -87,8 +87,7 @@ public class UtilisateurServlet extends HttpServlet {
                 default:
                     System.out.println("choose something else ");
             }
-            resp.setContentType("text/plain");
-            resp.getWriter().write("User and role inserted successfully!");
+            req.getRequestDispatcher("/WEB-INF/views/Login.jsp").forward(req,resp);
         }catch (Exception e){
             e.printStackTrace();
             resp.getWriter().write("Erreur inserting patient : " + e.getMessage());

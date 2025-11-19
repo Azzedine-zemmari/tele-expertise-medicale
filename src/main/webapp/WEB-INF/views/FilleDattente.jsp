@@ -21,7 +21,46 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 20px;
+        }
+
+        /* New header section for top navigation and actions */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .top-bar-left {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #ff6b6b;
+            color: white;
+            display: inline-block;
+        }
+
+        .logout-btn:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
 
         .container {
@@ -141,6 +180,42 @@
         .btn-consult:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Styled action buttons for INFIRMIER */
+        .btn-action {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-action-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-action-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-action-secondary {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-action-secondary:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         /* Modal Styles */
@@ -328,19 +403,62 @@
             font-size: 48px;
             margin-bottom: 15px;
         }
+
+        /* Responsive design for mobile */
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .top-bar-left {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .logout-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .action-cell {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
-<c:if test="${sessionScope.roleUser == 'INFIRMIER'}">
-    <a href="${pageContext.request.contextPath}/Register-Patient" class="btn btn-consult">Cree patient</a>
-    <a href="${pageContext.request.contextPath}/Dossier-Medical" class="btn btn-consult">Cree dossier medical</a>
-</c:if>
-<form method="post" action="${pageContext.request.contextPath}/logout" class="logout-form">
-    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
-    <button type="submit" class="logout-btn">
-        🚪 Logout
-    </button>
-</form>
+<!-- Redesigned top navigation bar with action buttons -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <c:if test="${sessionScope.roleUser == 'INFIRMIER'}">
+            <a href="${pageContext.request.contextPath}/Register-Patient" class="btn-action btn-action-primary">➕ Créer Patient</a>
+            <a href="${pageContext.request.contextPath}/Dossier-Medical" class="btn-action btn-action-secondary">📋 Créer Dossier Médical</a>
+        </c:if>
+    </div>
+    <form method="post" action="${pageContext.request.contextPath}/logout" class="logout-form">
+        <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+        <button type="submit" class="logout-btn">🚪 Logout</button>
+    </form>
+</div>
+
 <div class="container">
     <div class="page-header">
         <h1>📋 File d'Attente</h1>
@@ -380,7 +498,7 @@
                                 <button class="btn btn-vitals" onclick="openVitalsModal('vitals-${p.CIN}')">Signes Vitaux</button>
                                 <button class="btn btn-medical" onclick="openMedicalModal('medical-${p.CIN}')">Dossier Médical</button>
                                 <c:if test="${sessionScope.roleUser != 'INFIRMIER'}">
-                                <a href="CreeConsultation?dossier_medical_id=${p.dossierMedical.id}" class="btn btn-consult">Consultation</a>
+                                    <a href="CreeConsultation?dossier_medical_id=${p.dossierMedical.id}" class="btn btn-consult">Consultation</a>
                                 </c:if>
                             </div>
                         </td>

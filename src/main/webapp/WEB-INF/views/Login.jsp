@@ -137,21 +137,39 @@
             transform: translateY(0);
         }
 
+        /* Redesigned register link section with improved styling and placement */
         .form-footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .form-footer-text {
             color: #666;
             font-size: 14px;
+            margin-bottom: 12px;
         }
 
         .form-footer a {
-            color: #667eea;
+            display: inline-block;
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             text-decoration: none;
             font-weight: 600;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .form-footer a:hover {
-            text-decoration: underline;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-footer a:active {
+            transform: translateY(0);
         }
 
         .hidden {
@@ -191,7 +209,6 @@
 
     <form method="post" action="${pageContext.request.contextPath}/login">
         <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
-        <a href="${pageContext.request.contextPath}/Register">Register</a>
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
@@ -201,6 +218,11 @@
             <input type="password" id="password" name="password" required>
         </div>
         <button type="submit" class="submit-btn">Submit</button>
+        <!-- Moved register link to footer with improved styling and context -->
+        <div class="form-footer">
+            <p class="form-footer-text">Don't have an account?</p>
+            <a href="${pageContext.request.contextPath}/Register">Create Account</a>
+        </div>
     </form>
 </div>
 </body>

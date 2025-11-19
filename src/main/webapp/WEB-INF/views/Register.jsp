@@ -131,21 +131,36 @@
             transform: translateY(0);
         }
 
+        /* Added footer section styling for login link */
         .form-footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .form-footer p {
             color: #666;
             font-size: 14px;
+            margin-bottom: 12px;
         }
 
         .form-footer a {
-            color: #667eea;
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             text-decoration: none;
+            border-radius: 8px;
             font-weight: 600;
+            font-size: 14px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .form-footer a:hover {
-            text-decoration: underline;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
         }
 
         .hidden {
@@ -185,7 +200,7 @@
 
     <form method="post" action="${pageContext.request.contextPath}/Register">
         <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
-        <a href="${pageContext.request.contextPath}/login">Login</a>
+
         <div class="form-row">
             <div class="form-group">
                 <label for="firstName">First Name</label>
@@ -262,6 +277,12 @@
         </div>
 
         <button type="submit" class="submit-btn">Submit</button>
+
+        <!-- Moved login link to footer with improved styling -->
+        <div class="form-footer">
+            <p>Already have an account?</p>
+            <a href="${pageContext.request.contextPath}/login">Login</a>
+        </div>
     </form>
 </div>
 

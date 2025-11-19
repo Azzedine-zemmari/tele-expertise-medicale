@@ -301,6 +301,7 @@
             <!-- Add Vital Signs Form -->
             <h2 class="form-section-title">📋 Add Vital Signs</h2>
             <form method="post" action="${pageContext.request.contextPath}/SigneVital">
+                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                 <div class="form-group">
                     <label for="patientId">Patient ID</label>
                     <input type="text" id="patientId" name="patientId" value="${patientfound.id}" readonly>

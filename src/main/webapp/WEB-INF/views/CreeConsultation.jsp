@@ -31,7 +31,7 @@
       background: white;
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      max-width: 500px;
+      max-width: 600px;
       width: 100%;
       padding: 40px;
       max-height: 90vh;
@@ -79,8 +79,28 @@
       font-size: 14px;
     }
 
+    /* Added form sections for better organization */
+    .form-section {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .form-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-title {
+      color: #667eea;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+    }
+
     .form-group {
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .form-group label {
@@ -115,75 +135,15 @@
       gap: 15px;
     }
 
-    .checkbox-group {
+    /* Improved button styling with clear visual hierarchy */
+    .button-group {
       display: flex;
-      align-items: center;
-      margin-bottom: 25px;
-      padding: 15px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .checkbox-group:hover {
-      background: #e9ecef;
-    }
-
-    .checkbox-group input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      margin-right: 12px;
-      cursor: pointer;
-      accent-color: #667eea;
-    }
-
-    .checkbox-group label {
-      color: #333;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      user-select: none;
-      margin-bottom: 0;
-    }
-
-    .checkbox-group a {
-      color: #667eea;
-      text-decoration: none;
-    }
-
-    .checkbox-group a:hover {
-      text-decoration: underline;
-    }
-
-    /* Smooth transition for the signes vitaux form */
-    #signeVitauxForm {
-      overflow: hidden;
-      max-height: 0;
-      opacity: 0;
-      border: 1px solid #e0e0e0;
-      padding: 0 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      background: #f8f9fa;
-      transition: all 0.5s ease-in-out;
-    }
-
-    #signeVitauxForm.show {
-      max-height: 600px;
-      opacity: 1;
-      padding: 20px 15px;
-      margin-bottom: 25px;
-    }
-
-    #signeVitauxForm h3 {
-      color: #667eea;
-      font-size: 18px;
-      margin-bottom: 20px;
-      text-align: center;
+      gap: 12px;
+      margin-top: 30px;
     }
 
     .submit-btn {
-      width: 100%;
+      flex: 1;
       padding: 14px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -202,6 +162,19 @@
 
     .submit-btn:active {
       transform: translateY(0);
+    }
+
+    /* Secondary button with outline style for "Avis exper" */
+    .submit-btn.secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+      box-shadow: none;
+    }
+
+    .submit-btn.secondary:hover {
+      background: #f8f9fa;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
     }
 
     .form-footer {
@@ -229,6 +202,10 @@
       .container {
         padding: 30px 20px;
       }
+
+      .button-group {
+        flex-direction: column;
+      }
     }
 
   </style>
@@ -243,44 +220,62 @@
   <div class="form-content">
     <form method="post" action="${pageContext.request.contextPath}/CreeConsultation">
       <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+
+      <!-- Hidden dossier medical field -->
       <div class="form-group" style="display: none">
-          <label for="bloodType">Dossier Medical</label>
-            <input name="dossier_medical_id"  value="${dossier_medical.id}" />
+        <label for="bloodType">Dossier Medical</label>
+        <input name="dossier_medical_id"  value="${dossier_medical.id}" />
+      </div>
+
+      <!-- Organized into sections for better modularity -->
+      <div class="form-section">
+        <div class="section-title">Informations Générales</div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" required>
         </div>
 
-
-      <div class="form-group">
-        <label for="date">date</label>
-        <input type="date" id="date" name="date" required>
+        <div class="form-group">
+          <label for="motif">Motif</label>
+          <input type="text" id="motif" name="motif" placeholder="Raison de la consultation" required>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="motif">motif</label>
-        <input type="text" id="motif" name="motif" required>
+      <div class="form-section">
+        <div class="section-title">Diagnostic et Traitement</div>
+        <div class="form-group">
+          <label for="diagnostique">Diagnostic</label>
+          <input type="text" id="diagnostique" name="diagnostique" placeholder="Diagnostic établi" required>
+        </div>
+
+        <div class="form-group">
+          <label for="traitement">Traitement</label>
+          <input type="text" id="traitement" name="traitement" placeholder="Plan de traitement" required>
+        </div>
+
+        <div class="form-group">
+          <label for="count">Nombre de Visites</label>
+          <input type="text" id="count" name="count" placeholder="Nombre de visites recommandées" required>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="diagnostique">diagnostique</label>
-        <input type="text" id="diagnostique" name="diagnostique" required>
+      <div class="form-section">
+        <div class="section-title">Actions et Actes</div>
+        <div class="form-group">
+          <label for="typeact">Type d'Acte</label>
+          <select name="typeact" multiple>
+            <c:forEach var="act" items="${TypeAct}">
+              <option value="${act}">${act}</option>
+            </c:forEach>
+          </select>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="traitement">traitement</label>
-        <input type="text" id="traitement" name="traitement" required>
+
+      <!-- Improved button layout with clear visual hierarchy -->
+      <div class="button-group">
+        <button type="submit" name="action" value="termine" class="submit-btn">Soumettre</button>
+        <button type="submit" name="action" value="avis" class="submit-btn secondary">Avis Expert</button>
       </div>
-      <div class="form-group">
-        <label for="count">count</label>
-        <input type="text" id="count" name="count" required>
-      </div>
-    <div class="form-group">
-        <label for="typeact">TypeAct</label>
-        <select name="typeact" multiple>
-        <c:forEach var="act" items="${TypeAct}">
-            <option value="${act}">${act}</option>
-        </c:forEach>
-        </select>
-    </div>
-      <button type="submit" name="action" value="termine" class="submit-btn">Submit</button>
-      <button type="submit" name="action" value="avis" class="submit-btn">Avis exper</button>
     </form>
   </div>
 </div>
