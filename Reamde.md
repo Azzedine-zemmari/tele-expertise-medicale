@@ -15,11 +15,11 @@ Il permet à un **médecin généraliste** de solliciter l’avis d’un **spéc
 - Saisie des informations administratives
 - Historique médical, traitements, allergies
 - Signes vitaux :
- - Tension artérielle
- - Fréquence cardiaque
- - Température
- - Fréquence respiratoire
- - Poids & taille
+    - Tension artérielle
+    - Fréquence cardiaque
+    - Température
+    - Fréquence respiratoire
+    - Poids & taille
 - Ajout automatique dans la **file d'attente**
 
 Fonctionnalités :
